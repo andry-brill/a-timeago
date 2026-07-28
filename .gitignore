@@ -1,0 +1,16 @@
+javascript-time-ago-main
+react-time-ago-master
+time_ago_provider-master
+a-borders
+
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+coverage/
+doc/api/
+pubspec.lock
+example/.dart_tool/
+example/build/
+.idea

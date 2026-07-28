@@ -1,0 +1,11 @@
+{
+  "name": "any_timeago",
+  "short_name": "any_timeago",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#3F51B5",
+  "description": "any_timeago Flutter example",
+  "orientation": "portrait-primary",
+  "prefer_related_applications": false
+}
