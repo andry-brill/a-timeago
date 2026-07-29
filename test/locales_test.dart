@@ -1,10 +1,24 @@
 import 'package:any_timeago/any_timeago.dart';
+import 'package:any_timeago/locales/da.dart' as da;
 import 'package:any_timeago/locales/de.dart' as de;
+import 'package:any_timeago/locales/el.dart' as el;
 import 'package:any_timeago/locales/en.dart' as en;
 import 'package:any_timeago/locales/en_us.dart' as en_us;
+import 'package:any_timeago/locales/eo.dart' as eo;
+import 'package:any_timeago/locales/es.dart' as es;
+import 'package:any_timeago/locales/fr.dart' as fr;
+import 'package:any_timeago/locales/hi.dart' as hi;
+import 'package:any_timeago/locales/id.dart' as id;
 import 'package:any_timeago/locales/it.dart' as it;
+import 'package:any_timeago/locales/ko.dart' as ko;
 import 'package:any_timeago/locales/nb.dart' as nb;
+import 'package:any_timeago/locales/nl.dart' as nl;
+import 'package:any_timeago/locales/pl.dart' as pl;
+import 'package:any_timeago/locales/pt.dart' as pt;
+import 'package:any_timeago/locales/ro.dart' as ro;
 import 'package:any_timeago/locales/ru.dart' as ru;
+import 'package:any_timeago/locales/sv.dart' as sv;
+import 'package:any_timeago/locales/zh.dart' as zh;
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -141,7 +155,7 @@ void main() {
         locale: de.locale,
         format: TimeAgoFormat.mini,
       ),
-      '2 Min.',
+      '2 m',
     );
     expect(
       durationAgo(
@@ -150,7 +164,7 @@ void main() {
         format: TimeAgoFormat.mini,
         directional: true,
       ),
-      'vor 2 Min.',
+      'vor 2 m',
     );
     expect(
       durationAgoMulti(
@@ -161,6 +175,62 @@ void main() {
       ),
       '2q',
     );
+  });
+
+  test('dedicated mini unit labels are never longer than narrow labels', () {
+    const locales = <LocaleConfig>[
+      da.locale,
+      de.locale,
+      el.locale,
+      en.locale,
+      eo.locale,
+      es.locale,
+      fr.locale,
+      hi.locale,
+      id.locale,
+      ko.locale,
+      nl.locale,
+      pl.locale,
+      pt.locale,
+      ro.locale,
+      ru.locale,
+      sv.locale,
+      zh.locale,
+    ];
+    for (final locale in locales) {
+      final mini = locale.mini!;
+      for (final unit in TimeAgoUnit.values) {
+        if (unit == TimeAgoUnit.now) {
+          continue;
+        }
+        final narrowLabels = locale.narrow.units.forUnit(unit);
+        final miniLabels = mini.units.forUnit(unit);
+        for (final category in TimeAgoPluralCategory.values) {
+          final narrowPattern = narrowLabels.resolve(category);
+          final miniPattern = miniLabels.resolve(category);
+          expect(
+            miniPattern.runes.length,
+            lessThanOrEqualTo(narrowPattern.runes.length),
+            reason: '${locale.locale} $unit $category: '
+                '$miniPattern is longer than $narrowPattern',
+          );
+        }
+      }
+    }
+  });
+
+  test('identical narrow and mini unit sets are shared', () {
+    const locales = <LocaleConfig>[
+      en.locale,
+      es.locale,
+      fr.locale,
+      ko.locale,
+      sv.locale,
+      zh.locale,
+    ];
+    for (final locale in locales) {
+      expect(locale.mini!.units, same(locale.narrow.units));
+    }
   });
 
   test('narrow preserves signs directionally and strips them directionlessly',

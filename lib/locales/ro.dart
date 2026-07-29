@@ -268,8 +268,8 @@ const _mini = TimeAgoFormatLabels(
         future: TimeAgoPluralLabels(one: '+{0} an', other: '+{0} ani')),
   ),
   units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} sec.'),
-    minute: TimeAgoPluralLabels.same('{0} min.'),
+    second: TimeAgoPluralLabels.same('{0} s'),
+    minute: TimeAgoPluralLabels.same('{0} m'),
     hour: TimeAgoPluralLabels.same('{0} h'),
     day: TimeAgoPluralLabels(one: '{0} zi', other: '{0} zile'),
     week: TimeAgoPluralLabels.same('{0} săp.'),

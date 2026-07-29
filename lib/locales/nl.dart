@@ -277,7 +277,7 @@ const _mini = TimeAgoFormatLabels(
     second: TimeAgoPluralLabels.same('{0} sec.'),
     minute: TimeAgoPluralLabels.same('{0} min.'),
     hour: TimeAgoPluralLabels.same('{0} uur'),
-    day: TimeAgoPluralLabels(one: '{0} dag', other: '{0} dgn.'),
+    day: TimeAgoPluralLabels(one: '{0} dag', other: '{0} dgn'),
     week: TimeAgoPluralLabels(one: '{0} week', other: '{0} wkn.'),
     month: TimeAgoPluralLabels.same('{0} mnd.'),
     quarter: TimeAgoPluralLabels.same('{0} kw.'),

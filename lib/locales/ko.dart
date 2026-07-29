@@ -101,6 +101,17 @@ const _short = TimeAgoFormatLabels(
   ),
 );
 
+const _narrowUnits = TimeAgoUnitLabels(
+  second: TimeAgoPluralLabels.same('{0}초'),
+  minute: TimeAgoPluralLabels.same('{0}분'),
+  hour: TimeAgoPluralLabels.same('{0}시간'),
+  day: TimeAgoPluralLabels.same('{0}일'),
+  week: TimeAgoPluralLabels.same('{0}주'),
+  month: TimeAgoPluralLabels.same('{0}개월'),
+  quarter: TimeAgoPluralLabels.same('{0}분기'),
+  year: TimeAgoPluralLabels.same('{0}년'),
+);
+
 const _narrow = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
@@ -120,16 +131,7 @@ const _narrow = TimeAgoFormatLabels(
     year: TimeAgoRelativeUnitLabels.same(
         current: '올해', past: '{0}년 전', future: '{0}년 후'),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0}초'),
-    minute: TimeAgoPluralLabels.same('{0}분'),
-    hour: TimeAgoPluralLabels.same('{0}시간'),
-    day: TimeAgoPluralLabels.same('{0}일'),
-    week: TimeAgoPluralLabels.same('{0}주'),
-    month: TimeAgoPluralLabels.same('{0}개월'),
-    quarter: TimeAgoPluralLabels.same('{0}분기'),
-    year: TimeAgoPluralLabels.same('{0}년'),
-  ),
+  units: _narrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',
@@ -169,16 +171,7 @@ const _mini = TimeAgoFormatLabels(
         past: TimeAgoPluralLabels.same('{0}년 전'),
         future: TimeAgoPluralLabels.same('{0}년 후')),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0}초'),
-    minute: TimeAgoPluralLabels.same('{0}분'),
-    hour: TimeAgoPluralLabels.same('{0}시간'),
-    day: TimeAgoPluralLabels.same('{0}일'),
-    week: TimeAgoPluralLabels.same('{0}주'),
-    month: TimeAgoPluralLabels.same('{0}개월'),
-    quarter: TimeAgoPluralLabels.same('{0}분기'),
-    year: TimeAgoPluralLabels.same('{0}년'),
-  ),
+  units: _narrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0} {1}',
     start: '{0} {1}',

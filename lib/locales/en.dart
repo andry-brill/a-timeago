@@ -282,6 +282,17 @@ const _short = TimeAgoFormatLabels(
   ),
 );
 
+const _narrowUnits = TimeAgoUnitLabels(
+  second: TimeAgoPluralLabels.same('{0}s'),
+  minute: TimeAgoPluralLabels.same('{0}m'),
+  hour: TimeAgoPluralLabels.same('{0}h'),
+  day: TimeAgoPluralLabels.same('{0}d'),
+  week: TimeAgoPluralLabels.same('{0}w'),
+  month: TimeAgoPluralLabels.same('{0}mo'),
+  quarter: TimeAgoPluralLabels.same('{0}q'),
+  year: TimeAgoPluralLabels.same('{0}y'),
+);
+
 const _narrow = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
@@ -325,16 +336,7 @@ const _narrow = TimeAgoFormatLabels(
       future: 'in {0}y',
     ),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0}s'),
-    minute: TimeAgoPluralLabels.same('{0}m'),
-    hour: TimeAgoPluralLabels.same('{0}h'),
-    day: TimeAgoPluralLabels.same('{0}d'),
-    week: TimeAgoPluralLabels.same('{0}w'),
-    month: TimeAgoPluralLabels.same('{0}mo'),
-    quarter: TimeAgoPluralLabels.same('{0}q'),
-    year: TimeAgoPluralLabels.same('{0}y'),
-  ),
+  units: _narrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0} and {1}',
     start: '{0}, {1}',
@@ -357,16 +359,7 @@ const _miniRelative = TimeAgoRelativeLabels(
 
 const _mini = TimeAgoFormatLabels(
   relative: _miniRelative,
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0}s'),
-    minute: TimeAgoPluralLabels.same('{0}m'),
-    hour: TimeAgoPluralLabels.same('{0}h'),
-    day: TimeAgoPluralLabels.same('{0}d'),
-    week: TimeAgoPluralLabels.same('{0}wk'),
-    month: TimeAgoPluralLabels.same('{0}mo'),
-    quarter: TimeAgoPluralLabels.same('{0}q'),
-    year: TimeAgoPluralLabels.same('{0}yr'),
-  ),
+  units: _narrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0} {1}',
     start: '{0} {1}',

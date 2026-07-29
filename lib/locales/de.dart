@@ -230,7 +230,7 @@ const _mini = TimeAgoFormatLabels(
   ),
   units: TimeAgoUnitLabels(
     second: TimeAgoPluralLabels.same('{0} s'),
-    minute: TimeAgoPluralLabels.same('{0} Min.'),
+    minute: TimeAgoPluralLabels.same('{0} m'),
     hour: TimeAgoPluralLabels.same('{0} Std.'),
     day: TimeAgoPluralLabels.same('{0} T.'),
     week: TimeAgoPluralLabels.same('{0} Wo.'),

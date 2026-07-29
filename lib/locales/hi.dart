@@ -191,7 +191,7 @@ const _mini = TimeAgoFormatLabels(
     day: TimeAgoPluralLabels.same('{0}दिन'),
     week: TimeAgoPluralLabels.same('{0}सप्ताह'),
     month: TimeAgoPluralLabels.same('{0}माह'),
-    quarter: TimeAgoPluralLabels(one: '{0}तिमाही', other: '{0}तिमाहियों'),
+    quarter: TimeAgoPluralLabels.same('{0} ति॰'),
     year: TimeAgoPluralLabels.same('{0}वर्ष'),
   ),
   list: TimeAgoListPatterns(

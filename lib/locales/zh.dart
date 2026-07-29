@@ -127,6 +127,17 @@ const _short = TimeAgoFormatLabels(
   ),
 );
 
+const _narrowUnits = TimeAgoUnitLabels(
+  second: TimeAgoPluralLabels.same('{0}秒'),
+  minute: TimeAgoPluralLabels.same('{0}分钟'),
+  hour: TimeAgoPluralLabels.same('{0}小时'),
+  day: TimeAgoPluralLabels.same('{0}天'),
+  week: TimeAgoPluralLabels.same('{0}周'),
+  month: TimeAgoPluralLabels.same('{0}个月'),
+  quarter: TimeAgoPluralLabels.same('{0}个季度'),
+  year: TimeAgoPluralLabels.same('{0}年'),
+);
+
 const _narrow = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
@@ -146,16 +157,7 @@ const _narrow = TimeAgoFormatLabels(
     year: TimeAgoRelativeUnitLabels.same(
         current: '今年', past: '{0}年前', future: '{0}年后'),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0}秒'),
-    minute: TimeAgoPluralLabels.same('{0}分钟'),
-    hour: TimeAgoPluralLabels.same('{0}小时'),
-    day: TimeAgoPluralLabels.same('{0}天'),
-    week: TimeAgoPluralLabels.same('{0}周'),
-    month: TimeAgoPluralLabels.same('{0}个月'),
-    quarter: TimeAgoPluralLabels.same('{0}个季度'),
-    year: TimeAgoPluralLabels.same('{0}年'),
-  ),
+  units: _narrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',
@@ -195,16 +197,7 @@ const _mini = TimeAgoFormatLabels(
         past: TimeAgoPluralLabels.same('{0}年前'),
         future: TimeAgoPluralLabels.same('{0}年后')),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0}秒钟'),
-    minute: TimeAgoPluralLabels.same('{0}分钟'),
-    hour: TimeAgoPluralLabels.same('{0}小时'),
-    day: TimeAgoPluralLabels.same('{0}天'),
-    week: TimeAgoPluralLabels.same('{0}周'),
-    month: TimeAgoPluralLabels.same('{0}个月'),
-    quarter: TimeAgoPluralLabels.same('{0}个季度'),
-    year: TimeAgoPluralLabels.same('{0}年'),
-  ),
+  units: _narrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0} {1}',
     start: '{0} {1}',

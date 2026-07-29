@@ -1201,7 +1201,7 @@ void main() {
         (TimeAgoFormat.long, '#3 or more years ago'),
         (TimeAgoFormat.short, '≥#3 yr ago'),
         (TimeAgoFormat.narrow, '#3+y ago'),
-        (TimeAgoFormat.mini, 'more than #3yr'),
+        (TimeAgoFormat.mini, 'more than #3y'),
       ];
       for (final (format, expected) in cases) {
         expect(

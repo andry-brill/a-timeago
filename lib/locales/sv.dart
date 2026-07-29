@@ -133,6 +133,17 @@ const _short = TimeAgoFormatLabels(
   ),
 );
 
+const _narrowUnits = TimeAgoUnitLabels(
+  second: TimeAgoPluralLabels.same('{0} s'),
+  minute: TimeAgoPluralLabels.same('{0} min'),
+  hour: TimeAgoPluralLabels.same('{0} h'),
+  day: TimeAgoPluralLabels.same('{0} d'),
+  week: TimeAgoPluralLabels.same('{0} v'),
+  month: TimeAgoPluralLabels.same('{0} mån'),
+  quarter: TimeAgoPluralLabels.same('{0} kv'),
+  year: TimeAgoPluralLabels.same('{0} år'),
+);
+
 const _narrow = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
@@ -152,16 +163,7 @@ const _narrow = TimeAgoFormatLabels(
     year: TimeAgoRelativeUnitLabels.same(
         current: 'i år', past: '−{0} år', future: '+{0} år'),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} s'),
-    minute: TimeAgoPluralLabels.same('{0} min'),
-    hour: TimeAgoPluralLabels.same('{0} h'),
-    day: TimeAgoPluralLabels.same('{0} d'),
-    week: TimeAgoPluralLabels.same('{0} v'),
-    month: TimeAgoPluralLabels.same('{0} mån'),
-    quarter: TimeAgoPluralLabels.same('{0} kv'),
-    year: TimeAgoPluralLabels.same('{0} år'),
-  ),
+  units: _narrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',
@@ -201,16 +203,7 @@ const _mini = TimeAgoFormatLabels(
         past: TimeAgoPluralLabels.same('−{0} år'),
         future: TimeAgoPluralLabels.same('+{0} år')),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} sek.'),
-    minute: TimeAgoPluralLabels.same('{0} min'),
-    hour: TimeAgoPluralLabels.same('{0} tim.'),
-    day: TimeAgoPluralLabels(one: '{0} dag', other: '{0} dagar'),
-    week: TimeAgoPluralLabels.same('{0} v.'),
-    month: TimeAgoPluralLabels.same('{0} mån.'),
-    quarter: TimeAgoPluralLabels.same('{0} kv'),
-    year: TimeAgoPluralLabels.same('{0} år'),
-  ),
+  units: _narrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0} {1}',
     start: '{0} {1}',

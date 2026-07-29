@@ -168,6 +168,17 @@ const _short = TimeAgoFormatLabels(
   ),
 );
 
+const _narrowUnits = TimeAgoUnitLabels(
+  second: TimeAgoPluralLabels.same('{0} s'),
+  minute: TimeAgoPluralLabels.same('{0} min'),
+  hour: TimeAgoPluralLabels.same('{0} h'),
+  day: TimeAgoPluralLabels.same('{0} j'),
+  week: TimeAgoPluralLabels.same('{0} sem.'),
+  month: TimeAgoPluralLabels.same('{0} m.'),
+  quarter: TimeAgoPluralLabels.same('{0} trim.'),
+  year: TimeAgoPluralLabels.same('{0} a'),
+);
+
 const _narrow = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
@@ -187,16 +198,7 @@ const _narrow = TimeAgoFormatLabels(
     year: TimeAgoRelativeUnitLabels.same(
         current: 'cette année', past: '-{0} a', future: '+{0} a'),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} s'),
-    minute: TimeAgoPluralLabels.same('{0} min'),
-    hour: TimeAgoPluralLabels.same('{0} h'),
-    day: TimeAgoPluralLabels.same('{0} j'),
-    week: TimeAgoPluralLabels.same('{0} sem.'),
-    month: TimeAgoPluralLabels.same('{0} m.'),
-    quarter: TimeAgoPluralLabels.same('{0} trim.'),
-    year: TimeAgoPluralLabels.same('{0} a'),
-  ),
+  units: _narrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',
@@ -236,16 +238,7 @@ const _mini = TimeAgoFormatLabels(
         past: TimeAgoPluralLabels(one: '-{0} an', other: '-{0} ans'),
         future: TimeAgoPluralLabels(one: '+{0} an', other: '+{0} ans')),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} sec.'),
-    minute: TimeAgoPluralLabels.same('{0} min.'),
-    hour: TimeAgoPluralLabels.same('{0} h'),
-    day: TimeAgoPluralLabels(one: '{0} jour', other: '{0} jours'),
-    week: TimeAgoPluralLabels.same('{0} sem.'),
-    month: TimeAgoPluralLabels.same('{0} mois'),
-    quarter: TimeAgoPluralLabels.same('{0} trim.'),
-    year: TimeAgoPluralLabels(one: '{0} an', other: '{0} ans'),
-  ),
+  units: _narrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0} {1}',
     start: '{0} {1}',

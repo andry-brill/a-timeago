@@ -222,7 +222,7 @@ const _mini = TimeAgoFormatLabels(
     hour: TimeAgoPluralLabels.same('{0}ώρ.'),
     day: TimeAgoPluralLabels.same('{0}ημ.'),
     week: TimeAgoPluralLabels.same('{0}εβδ.'),
-    month: TimeAgoPluralLabels.same('{0}μην.'),
+    month: TimeAgoPluralLabels.same('{0} μ.'),
     quarter: TimeAgoPluralLabels.same('{0} τρίμ.'),
     year: TimeAgoPluralLabels.same('{0}χρ.'),
   ),

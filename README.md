@@ -1,5 +1,7 @@
 # any_timeago
 
+[![Tests](https://github.com/andry-brill/a-timeago/actions/workflows/test.yml/badge.svg)](https://github.com/andry-brill/a-timeago/actions/workflows/test.yml)
+
 Feature-rich relative-time formatting for Flutter, with four presentation
 formats and 197 localizations. Customize steps, per-step rounding, granularity,
 cutoffs, and multi-unit output. Includes ready-made inherited configuration and
@@ -67,6 +69,13 @@ required arguments.
     - `3 minutes ago` — Includes localized past or future wording.
   - Directionless: `timeAgo(..., directional: false)`
     - `3 minutes` — Returns only the localized amount and unit.
+- Custom units
+  - Fortnight: `durationAgo(..., steps: [en.fortnight])`
+    - `1 fortnight ago`
+  - Decade: `durationAgo(..., steps: [en.decade])`
+    - `3 decades ago`
+  - Century: `durationAgo(..., steps: [en.century])`
+    - `2 centuries ago`
 
 ## Setup
 

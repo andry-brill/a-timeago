@@ -1,7 +1,9 @@
 import 'package:any_timeago/any_timeago.dart';
+import 'package:any_timeago/locales/de.dart' as de;
 import 'package:any_timeago/locales/en.dart' as en;
-import 'package:any_timeago/locales/it.dart' as it;
-import 'package:any_timeago/locales/nb.dart' as nb;
+import 'package:any_timeago/locales/es.dart' as es;
+import 'package:any_timeago/locales/fr.dart' as fr;
+import 'package:any_timeago/locales/zh.dart' as zh;
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
@@ -59,53 +61,64 @@ class _ExamplePage extends StatelessWidget {
       now.microsecond,
     ).subtract(const Duration(days: 5));
 
+    final formatRows = <_FormatShowcaseRow>[
+      _FormatShowcaseRow(
+        language: 'English',
+        feature: '-',
+        valueFor: (format) => durationAgo(
+          const Duration(minutes: 3),
+          locale: en.locale,
+          format: format,
+        ),
+      ),
+      _FormatShowcaseRow(
+        language: 'French',
+        feature: 'Custom unit',
+        valueFor: (format) => durationAgo(
+          const Duration(days: 3650 * 3),
+          locale: fr.locale,
+          format: format,
+          steps: const <TimeAgoStep>[fr.decade],
+        ),
+      ),
+      _FormatShowcaseRow(
+        language: 'Chinese',
+        feature: 'Future',
+        valueFor: (format) => durationAgo(
+          const Duration(hours: -2),
+          locale: zh.locale,
+          format: format,
+        ),
+      ),
+      _FormatShowcaseRow(
+        language: 'German',
+        feature: 'Cutoff',
+        valueFor: (format) => durationAgo(
+          const Duration(days: 3650),
+          locale: de.locale,
+          format: format,
+          cutoffStep: const TimeAgoStep.unit(
+            TimeAgoUnit.year,
+            cutoffAmount: 9,
+          ),
+        ),
+      ),
+      _FormatShowcaseRow(
+        language: 'Spanish',
+        feature: 'Multi-unit',
+        valueFor: (format) => durationAgoMulti(
+          const Duration(days: 17),
+          locale: es.locale,
+          format: format,
+          units: const <TimeAgoUnit>[
+            TimeAgoUnit.week,
+            TimeAgoUnit.day,
+          ],
+        ),
+      ),
+    ];
+
     final sections = <_ShowcaseSection>[
-      _ShowcaseSection(
-        title: 'Presentation formats',
-        rows: <_ShowcaseRow>[
-          _ShowcaseRow(
-            shortcut: 'timeAgo(..., format: TimeAgoFormat.long)',
-            result: TimeAgoText(
-              time: threeMinutesAgo,
-              format: TimeAgoFormat.long,
-            ),
-          ),
-          _ShowcaseRow(
-            shortcut: 'timeAgo(..., format: TimeAgoFormat.short)',
-            result: TimeAgoText(
-              time: threeMinutesAgo,
-              format: TimeAgoFormat.short,
-            ),
-          ),
-          _ShowcaseRow(
-            shortcut: 'timeAgo(..., format: TimeAgoFormat.narrow)',
-            result: TimeAgoText(
-              time: threeMinutesAgo,
-              format: TimeAgoFormat.narrow,
-            ),
-          ),
-          _ShowcaseRow(
-            shortcut: 'timeAgo(..., format: TimeAgoFormat.mini)',
-            result: TimeAgoText(
-              time: threeMinutesAgo,
-              format: TimeAgoFormat.mini,
-            ),
-          ),
-        ],
-      ),
-      _ShowcaseSection(
-        title: '197 localizations',
-        rows: <_ShowcaseRow>[
-          _ShowcaseRow(
-            shortcut: 'timeAgo(..., locale: nb.locale)',
-            result: TimeAgoText(time: threeMinutesAgo, locale: nb.locale),
-          ),
-          _ShowcaseRow(
-            shortcut: 'timeAgo(..., locale: it.locale)',
-            result: TimeAgoText(time: threeMinutesAgo, locale: it.locale),
-          ),
-        ],
-      ),
       _ShowcaseSection(
         title: 'Step presets',
         rows: <_ShowcaseRow>[
@@ -308,9 +321,17 @@ class _ExamplePage extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Each value is calculated by an auto-updating any_timeago widget.',
+            'Compare presentation formats across languages and features, then '
+            'explore the live widget examples below.',
             style: Theme.of(context).textTheme.bodyLarge,
           ),
+          const SizedBox(height: 32),
+          Text(
+            'Formats, languages, and features',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const SizedBox(height: 8),
+          _FormatShowcaseTable(rows: formatRows),
           const SizedBox(height: 32),
           for (final section in sections) ...<Widget>[
             Text(
@@ -325,6 +346,18 @@ class _ExamplePage extends StatelessWidget {
       ),
     );
   }
+}
+
+class _FormatShowcaseRow {
+  const _FormatShowcaseRow({
+    required this.language,
+    required this.feature,
+    required this.valueFor,
+  });
+
+  final String language;
+  final String feature;
+  final String Function(TimeAgoFormat format) valueFor;
 }
 
 class _ShowcaseSection {
@@ -349,6 +382,106 @@ class _ShowcaseRow {
   final String? explanation;
 }
 
+const _tableAccent = Color(0xFFbde3ff);
+const _tableRadius = BorderRadius.all(Radius.circular(12));
+const _tableBorderSide = BorderSide(color: _tableAccent);
+const _tableBorder = TableBorder(
+  top: _tableBorderSide,
+  right: _tableBorderSide,
+  bottom: _tableBorderSide,
+  left: _tableBorderSide,
+  horizontalInside: _tableBorderSide,
+  verticalInside: _tableBorderSide,
+  borderRadius: _tableRadius,
+);
+
+Widget _roundedTable(Table table) {
+  return ClipRRect(
+    borderRadius: _tableRadius,
+    child: table,
+  );
+}
+
+class _FormatShowcaseTable extends StatelessWidget {
+  const _FormatShowcaseTable({required this.rows});
+
+  final List<_FormatShowcaseRow> rows;
+
+  @override
+  Widget build(BuildContext context) {
+    final titleStyle = Theme.of(context).textTheme.titleSmall;
+    final featureStyle = Theme.of(context).textTheme.bodySmall;
+
+    Widget cell(Widget child) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        child: Center(child: child),
+      );
+    }
+
+    return _roundedTable(
+      Table(
+        border: _tableBorder,
+        columnWidths: const <int, TableColumnWidth>{
+          0: FlexColumnWidth(1.5),
+          1: FlexColumnWidth(2.2),
+          2: FlexColumnWidth(2.2),
+          3: FlexColumnWidth(2.2),
+          4: FlexColumnWidth(2.2),
+        },
+        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+        children: <TableRow>[
+          TableRow(
+            decoration: const BoxDecoration(color: _tableAccent),
+            children: <Widget>[
+              cell(
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text('Language', style: titleStyle),
+                    const SizedBox(height: 2),
+                    Text('Feature', style: featureStyle),
+                  ],
+                ),
+              ),
+              cell(Text('Long', style: titleStyle)),
+              cell(Text('Short', style: titleStyle)),
+              cell(Text('Narrow', style: titleStyle)),
+              cell(Text('Mini', style: titleStyle)),
+            ],
+          ),
+          for (final row in rows)
+            TableRow(
+              children: <Widget>[
+                cell(
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(row.language, style: titleStyle),
+                      const SizedBox(height: 2),
+                      Text(
+                        row.feature,
+                        style: featureStyle,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+                for (final format in TimeAgoFormat.values)
+                  cell(
+                    SelectableText(
+                      row.valueFor(format),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+              ],
+            ),
+        ],
+      ),
+    );
+  }
+}
+
 class _ShowcaseTable extends StatelessWidget {
   const _ShowcaseTable({required this.rows});
 
@@ -356,8 +489,6 @@ class _ShowcaseTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final borderSide = BorderSide(color: colorScheme.outlineVariant);
     final codeStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(
           fontFamily: 'monospace',
         );
@@ -369,57 +500,49 @@ class _ShowcaseTable extends StatelessWidget {
       );
     }
 
-    return Table(
-      border: TableBorder(
-        top: borderSide,
-        right: borderSide,
-        bottom: borderSide,
-        left: borderSide,
-        horizontalInside: borderSide,
-        verticalInside: borderSide,
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-      ),
-      columnWidths: const <int, TableColumnWidth>{
-        0: FlexColumnWidth(4),
-        1: FlexColumnWidth(2),
-        2: FlexColumnWidth(3),
-      },
-      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-      children: <TableRow>[
-        TableRow(
-          decoration: BoxDecoration(
-            color: colorScheme.surfaceContainerHighest,
-          ),
-          children: <Widget>[
-            cell(
-              Text(
-                'Shortcut',
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-            ),
-            cell(
-              Text(
-                'Live result',
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-            ),
-            cell(
-              Text(
-                'Explanation',
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-            ),
-          ],
-        ),
-        for (final row in rows)
+    return _roundedTable(
+      Table(
+        border: _tableBorder,
+        columnWidths: const <int, TableColumnWidth>{
+          0: FlexColumnWidth(4),
+          1: FlexColumnWidth(2),
+          2: FlexColumnWidth(3),
+        },
+        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+        children: <TableRow>[
           TableRow(
+            decoration: const BoxDecoration(color: _tableAccent),
             children: <Widget>[
-              cell(SelectableText(row.shortcut, style: codeStyle)),
-              cell(row.result),
-              cell(Text(row.explanation ?? '—')),
+              cell(
+                Text(
+                  'Shortcut',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
+              cell(
+                Text(
+                  'Live result',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
+              cell(
+                Text(
+                  'Explanation',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
             ],
           ),
-      ],
+          for (final row in rows)
+            TableRow(
+              children: <Widget>[
+                cell(SelectableText(row.shortcut, style: codeStyle)),
+                cell(row.result),
+                cell(Text(row.explanation ?? '-')),
+              ],
+            ),
+        ],
+      ),
     );
   }
 }
