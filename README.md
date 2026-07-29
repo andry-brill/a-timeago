@@ -7,6 +7,8 @@ formats and 197 localizations. Customize steps, per-step rounding, granularity,
 cutoffs, and multi-unit output. Includes ready-made inherited configuration and
 synchronized, live-updating widgets.
 
+![App Screenshot](https://raw.githubusercontent.com/andry-brill/a-timeago/main/example/web/screenshot.png)
+
 The core implementation was initially based on the `javascript-time-ago` library.
 
 > You might also like my other packages: [any_sparklines](https://pub.dev/packages/any_sparklines), [any_borders](https://pub.dev/packages/any_borders)

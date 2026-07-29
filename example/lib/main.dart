@@ -1,9 +1,9 @@
 import 'package:any_timeago/any_timeago.dart';
-import 'package:any_timeago/locales/de.dart' as de;
 import 'package:any_timeago/locales/en.dart' as en;
 import 'package:any_timeago/locales/es.dart' as es;
 import 'package:any_timeago/locales/fr.dart' as fr;
-import 'package:any_timeago/locales/zh.dart' as zh;
+import 'package:any_timeago/locales/pl.dart' as pl;
+import 'package:any_timeago/locales/sv.dart' as sv;
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
@@ -72,30 +72,29 @@ class _ExamplePage extends StatelessWidget {
         ),
       ),
       _FormatShowcaseRow(
-        language: 'French',
-        feature: 'Custom unit',
-        valueFor: (format) => durationAgo(
-          const Duration(days: 3650 * 3),
-          locale: fr.locale,
-          format: format,
-          steps: const <TimeAgoStep>[fr.decade],
-        ),
-      ),
-      _FormatShowcaseRow(
-        language: 'Chinese',
+        language: 'English',
         feature: 'Future',
         valueFor: (format) => durationAgo(
           const Duration(hours: -2),
-          locale: zh.locale,
+          locale: en.locale,
           format: format,
         ),
       ),
       _FormatShowcaseRow(
-        language: 'German',
+        language: 'Polish',
+        feature: 'Future',
+        valueFor: (format) => durationAgo(
+          const Duration(hours: -2),
+          locale: pl.locale,
+          format: format,
+        ),
+      ),
+      _FormatShowcaseRow(
+        language: 'English',
         feature: 'Cutoff',
         valueFor: (format) => durationAgo(
           const Duration(days: 3650),
-          locale: de.locale,
+          locale: en.locale,
           format: format,
           cutoffStep: const TimeAgoStep.unit(
             TimeAgoUnit.year,
@@ -104,11 +103,57 @@ class _ExamplePage extends StatelessWidget {
         ),
       ),
       _FormatShowcaseRow(
+        language: 'Swedish',
+        feature: 'Cutoff',
+        valueFor: (format) => durationAgo(
+          const Duration(days: 3650),
+          locale: sv.locale,
+          format: format,
+          cutoffStep: const TimeAgoStep.unit(
+            TimeAgoUnit.year,
+            cutoffAmount: 9,
+          ),
+        ),
+      ),
+      _FormatShowcaseRow(
+        language: 'English',
+        feature: 'Custom unit',
+        valueFor: (format) => durationAgo(
+          const Duration(days: 3650 * 3),
+          locale: en.locale,
+          format: format,
+          steps: const <TimeAgoStep>[en.decade],
+        ),
+      ),
+      _FormatShowcaseRow(
         language: 'Spanish',
+        feature: 'Custom unit',
+        valueFor: (format) => durationAgo(
+          const Duration(days: 3650 * 3),
+          locale: es.locale,
+          format: format,
+          steps: const <TimeAgoStep>[es.decade],
+        ),
+      ),
+      _FormatShowcaseRow(
+        language: 'English',
         feature: 'Multi-unit',
         valueFor: (format) => durationAgoMulti(
           const Duration(days: 17),
-          locale: es.locale,
+          locale: en.locale,
+          format: format,
+          units: const <TimeAgoUnit>[
+            TimeAgoUnit.week,
+            TimeAgoUnit.day,
+          ],
+        ),
+      ),
+      _FormatShowcaseRow(
+        language: 'French',
+        feature: 'Multi-unit',
+        valueFor: (format) => durationAgoMulti(
+          const Duration(days: 17),
+          locale: fr.locale,
           format: format,
           units: const <TimeAgoUnit>[
             TimeAgoUnit.week,
@@ -325,12 +370,12 @@ class _ExamplePage extends StatelessWidget {
             'explore the live widget examples below.',
             style: Theme.of(context).textTheme.bodyLarge,
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 64),
           Text(
             'Formats, languages, and features',
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 32),
           _FormatShowcaseTable(rows: formatRows),
           const SizedBox(height: 32),
           for (final section in sections) ...<Widget>[
@@ -419,6 +464,19 @@ class _FormatShowcaseTable extends StatelessWidget {
       );
     }
 
+    Widget heading(String title, String subtitle) {
+      return cell(
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(title, style: titleStyle),
+            const SizedBox(height: 2),
+            Text(subtitle, style: featureStyle),
+          ],
+        ),
+      );
+    }
+
     return _roundedTable(
       Table(
         border: _tableBorder,
@@ -434,20 +492,11 @@ class _FormatShowcaseTable extends StatelessWidget {
           TableRow(
             decoration: const BoxDecoration(color: _tableAccent),
             children: <Widget>[
-              cell(
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text('Language', style: titleStyle),
-                    const SizedBox(height: 2),
-                    Text('Feature', style: featureStyle),
-                  ],
-                ),
-              ),
-              cell(Text('Long', style: titleStyle)),
-              cell(Text('Short', style: titleStyle)),
-              cell(Text('Narrow', style: titleStyle)),
-              cell(Text('Mini', style: titleStyle)),
+              heading('Language', 'Feature'),
+              heading('Long', 'Format'),
+              heading('Short', 'Format'),
+              heading('Narrow', 'Format'),
+              heading('Mini', 'Format'),
             ],
           ),
           for (final row in rows)

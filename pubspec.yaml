@@ -1,9 +1,14 @@
 name: any_timeago
 description: Feature-rich relative-time formatting for Flutter with four presentation formats, 197 localizations, customizable output, and synchronized live-updating widgets.
-version: 1.0.0
 homepage: https://github.com/andry-brill/a-timeago
 repository: https://github.com/andry-brill/a-timeago
 issue_tracker: https://github.com/andry-brill/a-timeago/issues
+
+screenshots:
+  - description: 'any-timeago examples'
+    path: example/web/screenshot.png
+
+version: 1.0.0
 
 topics:
   - timeago
