@@ -541,215 +541,36 @@ required, while `narrow` and `mini` are nullable. `labelsFor()` resolves narrow
 to short and mini to narrow then short. `formats.exact()` and
 `supportsFormat()` expose exact availability without applying those fallbacks.
 
-Locale files document their exact source provenance. Relative labels come from
-the checked-in `javascript-time-ago` locale sources, wording is cross-checked
-against `time_ago_provider`, and plural/date/duration/list behavior follows
-Unicode CLDR 48.1. Manually completed Bokmål values are marked inline.
-
-
-<!-- locale-core-sharing:start -->
+Locale files document their exact source provenance. Relative labels use the
+checked-in `javascript-time-ago` locale sources as a starting point, wording is
+cross-checked against `time_ago_provider`, and plural/date/duration/list
+behavior follows Unicode CLDR 48.1. Manually completed Bokmål values are marked
+inline.
 
 ## Locale core sharing
 
-Relative-time locale data is migrated from `javascript-time-ago-main/locale`.
+Relative-time locale data started from `javascript-time-ago-main/locale` and
+was then reviewed and extended for this package.
 
-| Locale | Source |
-|---|---|
-| `af` | `af.json` |
-| `ak` | `ak.json` |
-| `am` | `am.json` |
-| `ar` | `ar.json` |
-| `as` | `as.json` |
-| `ast` | `ast.json` |
-| `az` | `az.json` |
-| `ba` | `ba.json` |
-| `be` | `be.json` |
-| `bg` | `bg.json` |
-| `bgc` | `bgc.json` |
-| `blo` | `blo.json` |
-| `bn` | `bn.json` |
-| `br` | `br.json` |
-| `brx` | `brx.json` |
-| `bs` | `bs.json` |
-| `bua` | `bua.json` |
-| `ca` | `ca.json` |
-| `ccp` | `ccp.json` |
-| `ce` | `ce.json` |
-| `ceb` | `ceb.json` |
-| `chr` | `chr.json` |
-| `cs` | `cs.json` |
-| `csw` | `csw.json` |
-| `cv` | `cv.json` |
-| `cy` | `cy.json` |
-| `da` | `da.json` |
-| `de` | `de.json` |
-| `doi` | `doi.json` |
-| `dsb` | `dsb.json` |
-| `dz` | `dz.json` |
-| `ee` | `ee.json` |
-| `el` | `el.json` |
-| `en` | `en-001.json` |
-| `eo` | `eo.json` |
-| `es` | `es.json` |
-| `et` | `et.json` |
-| `eu` | `eu.json` |
-| `fa` | `fa.json` |
-| `fi` | `fi.json` |
-| `fil` | `fil.json` |
-| `fo` | `fo.json` |
-| `fr` | `fr.json` |
-| `fur` | `fur.json` |
-| `fy` | `fy.json` |
-| `ga` | `ga.json` |
-| `gd` | `gd.json` |
-| `gl` | `gl.json` |
-| `gu` | `gu.json` |
-| `ha` | `ha.json` |
-| `he` | `he.json` |
-| `hi` | `hi.json` |
-| `hr` | `hr.json` |
-| `hsb` | `hsb.json` |
-| `ht` | `ht.json` |
-| `hu` | `hu.json` |
-| `hy` | `hy.json` |
-| `ia` | `ia.json` |
-| `id` | `id.json` |
-| `ie` | `ie.json` |
-| `ig` | `ig.json` |
-| `ii` | `ii.json` |
-| `is` | `is.json` |
-| `it` | `it.json` |
-| `ja` | `ja.json` |
-| `jgo` | `jgo.json` |
-| `jv` | `jv.json` |
-| `ka` | `ka.json` |
-| `kaa` | `kaa.json` |
-| `kea` | `kea.json` |
-| `kgp` | `kgp.json` |
-| `kk` | `kk.json` |
-| `kl` | `kl.json` |
-| `km` | `km.json` |
-| `kn` | `kn.json` |
-| `ko` | `ko.json` |
-| `kok` | `kok.json` |
-| `ks` | `ks.json` |
-| `ksh` | `ksh.json` |
-| `ku` | `ku.json` |
-| `ky` | `ky.json` |
-| `lb` | `lb.json` |
-| `lkt` | `lkt.json` |
-| `lld` | `lld.json` |
-| `lo` | `lo.json` |
-| `lt` | `lt.json` |
-| `lv` | `lv.json` |
-| `mai` | `mai.json` |
-| `mi` | `mi.json` |
-| `mk` | `mk.json` |
-| `ml` | `ml.json` |
-| `mn` | `mn.json` |
-| `mni` | `mni.json` |
-| `mr` | `mr.json` |
-| `ms` | `ms.json` |
-| `mt` | `mt.json` |
-| `my` | `my.json` |
-| `mzn` | `mzn.json` |
-| `nb` | `nb.json` |
-| `ne` | `ne.json` |
-| `nl` | `nl.json` |
-| `nn` | `nn.json` |
-| `no` | `nb.json` |
-| `nqo` | `nqo.json` |
-| `nso` | `nso.json` |
-| `om` | `om.json` |
-| `or` | `or.json` |
-| `pa` | `pa.json` |
-| `pcm` | `pcm.json` |
-| `pl` | `pl.json` |
-| `ps` | `ps.json` |
-| `pt` | `pt.json` |
-| `qu` | `qu.json` |
-| `raj` | `raj.json` |
-| `rhg` | `rhg.json` |
-| `rm` | `rm.json` |
-| `ro` | `ro.json` |
-| `ru` | `ru.json` |
-| `rw` | `rw.json` |
-| `sah` | `sah.json` |
-| `sc` | `sc.json` |
-| `scn` | `scn.json` |
-| `sd` | `sd.json` |
-| `se` | `se.json` |
-| `shn` | `shn.json` |
-| `si` | `si.json` |
-| `sk` | `sk.json` |
-| `sl` | `sl.json` |
-| `so` | `so.json` |
-| `sq` | `sq.json` |
-| `sr` | `sr.json` |
-| `su` | `su.json` |
-| `sv` | `sv.json` |
-| `sw` | `sw.json` |
-| `syr` | `syr.json` |
-| `ta` | `ta.json` |
-| `te` | `te.json` |
-| `tg` | `tg.json` |
-| `th` | `th.json` |
-| `ti` | `ti.json` |
-| `tk` | `tk.json` |
-| `tn` | `tn.json` |
-| `to` | `to.json` |
-| `tok` | `tok.json` |
-| `tr` | `tr.json` |
-| `tt` | `tt.json` |
-| `tyv` | `tyv.json` |
-| `ug` | `ug.json` |
-| `uk` | `uk.json` |
-| `ur` | `ur.json` |
-| `uz` | `uz.json` |
-| `vec` | `vec.json` |
-| `vi` | `vi.json` |
-| `wae` | `wae.json` |
-| `wo` | `wo.json` |
-| `xh` | `xh.json` |
-| `xnr` | `xnr.json` |
-| `yi` | `yi.json` |
-| `yo` | `yo.json` |
-| `yrl` | `yrl.json` |
-| `yue` | `yue.json` |
-| `zh` | `zh.json` |
-| `zu` | `zu.json` |
-| `ar_ae` | `ar-AE.json` |
-| `bal_latn` | `bal-Latn.json` |
-| `be_tarask` | `be-tarask.json` |
-| `bs_cyrl` | `bs-Cyrl.json` |
-| `en_au` | `en-AU.json` |
-| `en_ca` | `en-CA.json` |
-| `en_sg` | `en-SG.json` |
-| `es_419` | `es-419.json` |
-| `es_ar` | `es-AR.json` |
-| `es_mx` | `es-MX.json` |
-| `es_py` | `es-PY.json` |
-| `es_sv` | `es-SV.json` |
-| `es_us` | `es-US.json` |
-| `ff_adlm` | `ff-Adlm.json` |
-| `fr_ca` | `fr-CA.json` |
-| `hi_latn` | `hi-Latn.json` |
-| `kk_arab` | `kk-Arab.json` |
-| `kok_latn` | `kok-Latn.json` |
-| `ms_arab` | `ms-Arab.json` |
-| `ps_pk` | `ps-PK.json` |
-| `pt_ao` | `pt-AO.json` |
-| `sd_deva` | `sd-Deva.json` |
-| `se_fi` | `se-FI.json` |
-| `sr_latn` | `sr-Latn.json` |
-| `ur_in` | `ur-IN.json` |
-| `uz_cyrl` | `uz-Cyrl.json` |
-| `yo_bj` | `yo-BJ.json` |
-| `yue_hans` | `yue-Hans.json` |
-| `zh_hant` | `zh-Hant.json` |
-| `sr_cyrl_ba` | `sr-Cyrl-BA.json` |
-| `sr_latn_ba` | `sr-Latn-BA.json` |
-| `zh_hans_hk` | `zh-Hans-HK.json` |
-| `zh_hant_hk` | `zh-Hant-HK.json` |
-
-<!-- locale-core-sharing:end -->
+Supported locales: `af`, `ak`, `am`, `ar`, `ar_ae`, `as`, `ast`, `az`,
+`ba`, `bal_latn`, `be`, `be_tarask`, `bg`, `bgc`, `blo`, `bn`, `br`,
+`brx`, `bs`, `bs_cyrl`, `bua`, `ca`, `ccp`, `ce`, `ceb`, `chr`,
+`cs`, `csw`, `cv`, `cy`, `da`, `de`, `doi`, `dsb`, `dz`, `ee`,
+`el`, `en`, `en_au`, `en_ca`, `en_sg`, `en_us`, `eo`, `es`, `es_419`,
+`es_ar`, `es_mx`, `es_py`, `es_sv`, `es_us`, `et`, `eu`, `fa`,
+`ff_adlm`, `fi`, `fil`, `fo`, `fr`, `fr_ca`, `fur`, `fy`, `ga`,
+`gd`, `gl`, `gu`, `ha`, `he`, `hi`, `hi_latn`, `hr`, `hsb`, `ht`,
+`hu`, `hy`, `ia`, `id`, `ie`, `ig`, `ii`, `is`, `it`, `ja`, `jgo`,
+`jv`, `ka`, `kaa`, `kea`, `kgp`, `kk`, `kk_arab`, `kl`, `km`, `kn`,
+`ko`, `kok`, `kok_latn`, `ks`, `ksh`, `ku`, `ky`, `lb`, `lkt`,
+`lld`, `lo`, `lt`, `lv`, `mai`, `mi`, `mk`, `ml`, `mn`, `mni`,
+`mr`, `ms`, `ms_arab`, `mt`, `my`, `mzn`, `nb`, `ne`, `nl`, `nn`,
+`no`, `nqo`, `nso`, `om`, `or`, `pa`, `pcm`, `pl`, `ps`, `ps_pk`,
+`pt`, `pt_ao`, `qu`, `raj`, `rhg`, `rm`, `ro`, `ru`, `rw`, `sah`,
+`sc`, `scn`, `sd`, `sd_deva`, `se`, `se_fi`, `shn`, `si`, `sk`,
+`sl`, `so`, `sq`, `sr`, `sr_cyrl_ba`, `sr_latn`, `sr_latn_ba`, `su`,
+`sv`, `sw`, `syr`, `ta`, `te`, `tg`, `th`, `ti`, `tk`, `tn`, `to`,
+`tok`, `tr`, `tt`, `tyv`, `ug`, `uk`, `ur`, `ur_in`, `uz`,
+`uz_cyrl`, `vec`, `vi`, `wae`, `wo`, `xh`, `xnr`, `yi`, `yo`,
+`yo_bj`, `yrl`, `yue`, `yue_hans`, `zh`, `zh_hans_hk`, `zh_hant`,
+`zh_hant_hk`, `zu`.
