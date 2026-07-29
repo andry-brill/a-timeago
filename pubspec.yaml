@@ -8,7 +8,7 @@ screenshots:
   - description: 'any-timeago examples'
     path: example/web/screenshot.png
 
-version: 1.0.0
+version: 1.0.1
 
 topics:
   - timeago
@@ -24,7 +24,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.20.3
+  intl: ">=0.18.0 <0.21.0"
 
 dev_dependencies:
   flutter_test:
