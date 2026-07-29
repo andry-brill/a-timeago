@@ -7,7 +7,6 @@ const LocaleConfig locale = LocaleConfig(
   formats: TimeAgoFormatSet(
     long: _long,
     short: _short,
-    narrow: _narrow,
     mini: null,
   ),
   now: TimeAgoNowLabels(
@@ -92,61 +91,6 @@ const _long = TimeAgoFormatLabels(
 );
 
 const _short = TimeAgoFormatLabels(
-  relative: TimeAgoRelativeLabels(
-    second: TimeAgoRelativeUnitLabels(
-        current: 'now',
-        past: TimeAgoPluralLabels(one: '{0} sec ago', other: '{0} secs ago'),
-        future: TimeAgoPluralLabels(one: 'in {0} sec', other: 'in {0} secs')),
-    minute: TimeAgoRelativeUnitLabels(
-        current: 'this minute',
-        past: TimeAgoPluralLabels(one: '{0} min ago', other: '{0} mins ago'),
-        future: TimeAgoPluralLabels(one: 'in {0} min', other: 'in {0} mins')),
-    hour: TimeAgoRelativeUnitLabels(
-        current: 'this hour',
-        past: TimeAgoPluralLabels(one: '{0} hr ago', other: '{0} hrs ago'),
-        future: TimeAgoPluralLabels(one: 'in {0} hr', other: 'in {0} hrs')),
-    day: TimeAgoRelativeUnitLabels(
-        current: 'today',
-        past: TimeAgoPluralLabels(one: '{0} day ago', other: '{0} days ago'),
-        future: TimeAgoPluralLabels(one: 'in {0} day', other: 'in {0} days')),
-    week: TimeAgoRelativeUnitLabels(
-        current: 'this wk',
-        past: TimeAgoPluralLabels(one: '{0} wk ago', other: '{0} wks ago'),
-        future: TimeAgoPluralLabels(one: 'in {0} wk', other: 'in {0} wks')),
-    month: TimeAgoRelativeUnitLabels.same(
-        current: 'this mo', past: '{0} mo ago', future: 'in {0} mo'),
-    quarter: TimeAgoRelativeUnitLabels(
-        current: 'this qtr.',
-        past: TimeAgoPluralLabels(one: '{0} qtr ago', other: '{0} qtrs ago'),
-        future: TimeAgoPluralLabels(one: 'in {0} qtr', other: 'in {0} qtrs')),
-    year: TimeAgoRelativeUnitLabels(
-        current: 'this yr',
-        past: TimeAgoPluralLabels(one: '{0} yr ago', other: '{0} yrs ago'),
-        future: TimeAgoPluralLabels(one: 'in {0} yr', other: 'in {0} yrs')),
-  ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels(one: '{0} sec', other: '{0} secs'),
-    minute: TimeAgoPluralLabels(one: '{0} min', other: '{0} mins'),
-    hour: TimeAgoPluralLabels(one: '{0} hr', other: '{0} hrs'),
-    day: TimeAgoPluralLabels(one: '{0} day', other: '{0} days'),
-    week: TimeAgoPluralLabels(one: '{0} wk', other: '{0} wks'),
-    month: TimeAgoPluralLabels.same('{0} mo'),
-    quarter: TimeAgoPluralLabels(one: '{0} qtr', other: '{0} qtrs'),
-    year: TimeAgoPluralLabels(one: '{0} yr', other: '{0} yrs'),
-  ),
-  list: TimeAgoListPatterns(
-    pair: '{0}, {1}',
-    start: '{0}, {1}',
-    middle: '{0}, {1}',
-    end: '{0}, {1}',
-  ),
-  direction: TimeAgoDirectionPatterns(
-    past: '{0} ago',
-    future: 'in {0}',
-  ),
-);
-
-const _narrow = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels(
         current: 'now',

@@ -6,7 +6,6 @@ const LocaleConfig locale = LocaleConfig(
   formats: TimeAgoFormatSet(
     long: _long,
     short: _short,
-    narrow: _narrow,
     mini: null,
   ),
   now: TimeAgoNowLabels(
@@ -147,66 +146,6 @@ const _long = TimeAgoFormatLabels(
 );
 
 const _short = TimeAgoFormatLabels(
-  relative: TimeAgoRelativeLabels(
-    second: TimeAgoRelativeUnitLabels.same(
-        current: 'nyní', past: 'před {0} s', future: 'za {0} s'),
-    minute: TimeAgoRelativeUnitLabels.same(
-        current: 'tuto minutu', past: 'před {0} min', future: 'za {0} min'),
-    hour: TimeAgoRelativeUnitLabels.same(
-        current: 'tuto hodinu', past: 'před {0} h', future: 'za {0} h'),
-    day: TimeAgoRelativeUnitLabels(
-        current: 'dnes',
-        past: TimeAgoPluralLabels(
-            one: 'před {0} dnem', many: 'před {0} dne', other: 'před {0} dny'),
-        future: TimeAgoPluralLabels(
-            one: 'za {0} den',
-            few: 'za {0} dny',
-            many: 'za {0} dne',
-            other: 'za {0} dní')),
-    week: TimeAgoRelativeUnitLabels.same(
-        current: 'tento týd.', past: 'před {0} týd.', future: 'za {0} týd.'),
-    month: TimeAgoRelativeUnitLabels.same(
-        current: 'tento měs.', past: 'před {0} měs.', future: 'za {0} měs.'),
-    quarter: TimeAgoRelativeUnitLabels.same(
-        current: 'toto čtvrtletí', past: '-{0} Q', future: '+{0} Q'),
-    year: TimeAgoRelativeUnitLabels(
-        current: 'tento rok',
-        past: TimeAgoPluralLabels(
-            one: 'před {0} r.',
-            few: 'před {0} r.',
-            many: 'před {0} r.',
-            other: 'před {0} l.'),
-        future: TimeAgoPluralLabels(
-            one: 'za {0} r.',
-            few: 'za {0} r.',
-            many: 'za {0} r.',
-            other: 'za {0} l.')),
-  ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} s'),
-    minute: TimeAgoPluralLabels.same('{0} min'),
-    hour: TimeAgoPluralLabels.same('{0} h'),
-    day: TimeAgoPluralLabels(
-        one: '{0} d', few: '{0} dny', many: '{0} dne', other: '{0} dn'),
-    week: TimeAgoPluralLabels.same('{0} týd.'),
-    month: TimeAgoPluralLabels.same('{0} měs.'),
-    quarter: TimeAgoPluralLabels.same('{0} Q'),
-    year: TimeAgoPluralLabels(
-        one: '{0} r.', few: '{0} r.', many: '{0} r.', other: '{0} l.'),
-  ),
-  list: TimeAgoListPatterns(
-    pair: '{0}, {1}',
-    start: '{0}, {1}',
-    middle: '{0}, {1}',
-    end: '{0}, {1}',
-  ),
-  direction: TimeAgoDirectionPatterns(
-    past: 'před {0}',
-    future: 'za {0}',
-  ),
-);
-
-const _narrow = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
         current: 'nyní', past: 'před {0} s', future: 'za {0} s'),

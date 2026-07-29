@@ -95,6 +95,17 @@ const _long = TimeAgoFormatLabels(
   ),
 );
 
+const _shortNarrowUnits = TimeAgoUnitLabels(
+  second: TimeAgoPluralLabels.same('{0} s'),
+  minute: TimeAgoPluralLabels.same('{0} min'),
+  hour: TimeAgoPluralLabels.same('{0} h'),
+  day: TimeAgoPluralLabels(one: '{0} dia', other: '{0} dias'),
+  week: TimeAgoPluralLabels.same('{0} sem.'),
+  month: TimeAgoPluralLabels(one: '{0} mês', other: '{0} meses'),
+  quarter: TimeAgoPluralLabels.same('{0} trim.'),
+  year: TimeAgoPluralLabels(one: '{0} ano', other: '{0} anos'),
+);
+
 const _short = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
@@ -129,16 +140,7 @@ const _short = TimeAgoFormatLabels(
         future: TimeAgoPluralLabels(
             one: 'dentro de {0} ano', other: 'dentro de {0} anos')),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} s'),
-    minute: TimeAgoPluralLabels.same('{0} min'),
-    hour: TimeAgoPluralLabels.same('{0} h'),
-    day: TimeAgoPluralLabels(one: '{0} dia', other: '{0} dias'),
-    week: TimeAgoPluralLabels.same('{0} sem.'),
-    month: TimeAgoPluralLabels(one: '{0} mês', other: '{0} meses'),
-    quarter: TimeAgoPluralLabels.same('{0} trim.'),
-    year: TimeAgoPluralLabels(one: '{0} ano', other: '{0} anos'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',
@@ -176,16 +178,7 @@ const _narrow = TimeAgoFormatLabels(
         past: TimeAgoPluralLabels(one: '-{0} ano', other: '-{0} anos'),
         future: TimeAgoPluralLabels(one: '+{0} ano', other: '+{0} anos')),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} s'),
-    minute: TimeAgoPluralLabels.same('{0} min'),
-    hour: TimeAgoPluralLabels.same('{0} h'),
-    day: TimeAgoPluralLabels(one: '{0} dia', other: '{0} dias'),
-    week: TimeAgoPluralLabels.same('{0} sem.'),
-    month: TimeAgoPluralLabels(one: '{0} mês', other: '{0} meses'),
-    quarter: TimeAgoPluralLabels.same('{0} trim.'),
-    year: TimeAgoPluralLabels(one: '{0} ano', other: '{0} anos'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',

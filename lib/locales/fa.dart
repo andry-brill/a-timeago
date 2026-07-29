@@ -62,6 +62,17 @@ const _long = TimeAgoFormatLabels(
   ),
 );
 
+const _shortNarrowUnits = TimeAgoUnitLabels(
+  second: TimeAgoPluralLabels.same('{0} ثانیه'),
+  minute: TimeAgoPluralLabels.same('{0} دقیقه'),
+  hour: TimeAgoPluralLabels.same('{0} ساعت'),
+  day: TimeAgoPluralLabels.same('{0} روز'),
+  week: TimeAgoPluralLabels.same('{0} هفته'),
+  month: TimeAgoPluralLabels.same('{0} ماه'),
+  quarter: TimeAgoPluralLabels.same('{0} سه‌ماههٔ'),
+  year: TimeAgoPluralLabels.same('{0} سال'),
+);
+
 const _short = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
@@ -83,16 +94,7 @@ const _short = TimeAgoFormatLabels(
     year: TimeAgoRelativeUnitLabels.same(
         current: 'امسال', past: '{0} سال پیش', future: '{0} سال بعد'),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} ثانیه'),
-    minute: TimeAgoPluralLabels.same('{0} دقیقه'),
-    hour: TimeAgoPluralLabels.same('{0} ساعت'),
-    day: TimeAgoPluralLabels.same('{0} روز'),
-    week: TimeAgoPluralLabels.same('{0} هفته'),
-    month: TimeAgoPluralLabels.same('{0} ماه'),
-    quarter: TimeAgoPluralLabels.same('{0} سه‌ماههٔ'),
-    year: TimeAgoPluralLabels.same('{0} سال'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',
@@ -126,16 +128,7 @@ const _narrow = TimeAgoFormatLabels(
     year: TimeAgoRelativeUnitLabels.same(
         current: 'امسال', past: '{0} سال پیش', future: '{0} سال بعد'),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} ثانیه'),
-    minute: TimeAgoPluralLabels.same('{0} دقیقه'),
-    hour: TimeAgoPluralLabels.same('{0} ساعت'),
-    day: TimeAgoPluralLabels.same('{0} روز'),
-    week: TimeAgoPluralLabels.same('{0} هفته'),
-    month: TimeAgoPluralLabels.same('{0} ماه'),
-    quarter: TimeAgoPluralLabels.same('{0} سه‌ماههٔ'),
-    year: TimeAgoPluralLabels.same('{0} سال'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',

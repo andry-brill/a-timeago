@@ -6,7 +6,6 @@ const LocaleConfig locale = LocaleConfig(
   formats: TimeAgoFormatSet(
     long: _long,
     short: _short,
-    narrow: _narrow,
     mini: _mini,
   ),
   now: TimeAgoNowLabels(
@@ -123,55 +122,6 @@ const _long = TimeAgoFormatLabels(
 );
 
 const _short = TimeAgoFormatLabels(
-  relative: TimeAgoRelativeLabels(
-    second: TimeAgoRelativeUnitLabels.same(
-        current: 'agora', past: 'há {0} seg.', future: 'em {0} seg.'),
-    minute: TimeAgoRelativeUnitLabels.same(
-        current: 'este minuto', past: 'há {0} min.', future: 'em {0} min.'),
-    hour: TimeAgoRelativeUnitLabels.same(
-        current: 'esta hora', past: 'há {0} h', future: 'em {0} h'),
-    day: TimeAgoRelativeUnitLabels(
-        current: 'hoje',
-        past: TimeAgoPluralLabels(one: 'há {0} dia', other: 'há {0} dias'),
-        future: TimeAgoPluralLabels(one: 'em {0} dia', other: 'em {0} dias')),
-    week: TimeAgoRelativeUnitLabels.same(
-        current: 'esta semana', past: 'há {0} sem.', future: 'em {0} sem.'),
-    month: TimeAgoRelativeUnitLabels(
-        current: 'este mês',
-        past: TimeAgoPluralLabels(one: 'há {0} mês', other: 'há {0} meses'),
-        future: TimeAgoPluralLabels(one: 'em {0} mês', other: 'em {0} meses')),
-    quarter: TimeAgoRelativeUnitLabels.same(
-        current: 'este trimestre',
-        past: 'há {0} trim.',
-        future: 'em {0} trim.'),
-    year: TimeAgoRelativeUnitLabels(
-        current: 'este ano',
-        past: TimeAgoPluralLabels(one: 'há {0} ano', other: 'há {0} anos'),
-        future: TimeAgoPluralLabels(one: 'em {0} ano', other: 'em {0} anos')),
-  ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} seg.'),
-    minute: TimeAgoPluralLabels.same('{0} min.'),
-    hour: TimeAgoPluralLabels.same('{0} h'),
-    day: TimeAgoPluralLabels(one: '{0} dia', other: '{0} dias'),
-    week: TimeAgoPluralLabels.same('{0} sem.'),
-    month: TimeAgoPluralLabels(one: '{0} mês', other: '{0} meses'),
-    quarter: TimeAgoPluralLabels.same('{0} trim.'),
-    year: TimeAgoPluralLabels(one: '{0} ano', other: '{0} anos'),
-  ),
-  list: TimeAgoListPatterns(
-    pair: '{0}, {1}',
-    start: '{0}, {1}',
-    middle: '{0}, {1}',
-    end: '{0}, {1}',
-  ),
-  direction: TimeAgoDirectionPatterns(
-    past: 'há {0}',
-    future: 'em {0}',
-  ),
-);
-
-const _narrow = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
         current: 'agora', past: 'há {0} seg.', future: 'em {0} seg.'),

@@ -60,6 +60,17 @@ const _long = TimeAgoFormatLabels(
   ),
 );
 
+const _shortNarrowUnits = TimeAgoUnitLabels(
+  second: TimeAgoPluralLabels.same('{0} s'),
+  minute: TimeAgoPluralLabels.same('{0} min'),
+  hour: TimeAgoPluralLabels.same('{0} h'),
+  day: TimeAgoPluralLabels.same('{0} d'),
+  week: TimeAgoPluralLabels.same('{0} w'),
+  month: TimeAgoPluralLabels.same('{0} m'),
+  quarter: TimeAgoPluralLabels.same('{0} Q'),
+  year: TimeAgoPluralLabels.same('{0} y'),
+);
+
 const _short = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
@@ -79,16 +90,7 @@ const _short = TimeAgoFormatLabels(
     year: TimeAgoRelativeUnitLabels.same(
         current: 'एह् ब’रा/इस ब’रै', past: '-{0} y', future: '+{0} y'),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} s'),
-    minute: TimeAgoPluralLabels.same('{0} min'),
-    hour: TimeAgoPluralLabels.same('{0} h'),
-    day: TimeAgoPluralLabels.same('{0} d'),
-    week: TimeAgoPluralLabels.same('{0} w'),
-    month: TimeAgoPluralLabels.same('{0} m'),
-    quarter: TimeAgoPluralLabels.same('{0} Q'),
-    year: TimeAgoPluralLabels.same('{0} y'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',
@@ -120,16 +122,7 @@ const _narrow = TimeAgoFormatLabels(
     year: TimeAgoRelativeUnitLabels.same(
         current: 'एह् ब’रा', past: '-{0} y', future: '+{0} y'),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} s'),
-    minute: TimeAgoPluralLabels.same('{0} min'),
-    hour: TimeAgoPluralLabels.same('{0} h'),
-    day: TimeAgoPluralLabels.same('{0} d'),
-    week: TimeAgoPluralLabels.same('{0} w'),
-    month: TimeAgoPluralLabels.same('{0} m'),
-    quarter: TimeAgoPluralLabels.same('{0} Q'),
-    year: TimeAgoPluralLabels.same('{0} y'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',

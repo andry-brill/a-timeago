@@ -389,18 +389,18 @@ class TimeAgoFormatLabels {
   }
 }
 
-/// An immutable set of label widths with optional dedicated mini labels.
+/// An immutable set of label widths with optional narrow and mini labels.
 class TimeAgoFormatSet<T> {
   const TimeAgoFormatSet({
     required this.long,
     required this.short,
-    required this.narrow,
+    this.narrow,
     this.mini,
   });
 
   final T long;
   final T short;
-  final T narrow;
+  final T? narrow;
   final T? mini;
 
   T? exact(TimeAgoFormat format) {
@@ -412,7 +412,14 @@ class TimeAgoFormatSet<T> {
     };
   }
 
-  T resolve(TimeAgoFormat format) => exact(format) ?? narrow;
+  T resolve(TimeAgoFormat format) {
+    return switch (format) {
+      TimeAgoFormat.long => long,
+      TimeAgoFormat.short => short,
+      TimeAgoFormat.narrow => narrow ?? short,
+      TimeAgoFormat.mini => mini ?? narrow ?? short,
+    };
+  }
 
   bool supports(TimeAgoFormat format) => exact(format) != null;
 
@@ -421,12 +428,13 @@ class TimeAgoFormatSet<T> {
     T? short,
     T? narrow,
     T? mini,
+    bool clearNarrow = false,
     bool clearMini = false,
   }) {
     return TimeAgoFormatSet<T>(
       long: long ?? this.long,
       short: short ?? this.short,
-      narrow: narrow ?? this.narrow,
+      narrow: clearNarrow ? null : narrow ?? this.narrow,
       mini: clearMini ? null : mini ?? this.mini,
     );
   }
@@ -449,7 +457,7 @@ class LocaleConfig {
 
   TimeAgoFormatLabels get long => formats.long;
   TimeAgoFormatLabels get short => formats.short;
-  TimeAgoFormatLabels get narrow => formats.narrow;
+  TimeAgoFormatLabels? get narrow => formats.narrow;
   TimeAgoFormatLabels? get mini => formats.mini;
 
   LocaleConfig copyWith({
@@ -459,6 +467,7 @@ class LocaleConfig {
     TimeAgoFormatLabels? short,
     TimeAgoFormatLabels? narrow,
     TimeAgoFormatLabels? mini,
+    bool clearNarrow = false,
     bool clearMini = false,
     TimeAgoNowLabels? now,
     TimeAgoLocaleFunctions? functions,
@@ -469,7 +478,7 @@ class LocaleConfig {
           TimeAgoFormatSet<TimeAgoFormatLabels>(
             long: long ?? this.long,
             short: short ?? this.short,
-            narrow: narrow ?? this.narrow,
+            narrow: clearNarrow ? null : narrow ?? this.narrow,
             mini: clearMini ? null : mini ?? this.mini,
           ),
       now: now ?? this.now,

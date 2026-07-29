@@ -141,7 +141,15 @@ void main() {
       );
     });
 
-    test('format sets preserve widths, accept overrides, and remove mini', () {
+    test('format sets preserve, override, remove, and resolve widths', () {
+      const requiredOnly = TimeAgoFormatSet<String>(
+        long: 'long',
+        short: 'short',
+      );
+      expect(requiredOnly.exact(TimeAgoFormat.narrow), isNull);
+      expect(requiredOnly.resolve(TimeAgoFormat.narrow), 'short');
+      expect(requiredOnly.resolve(TimeAgoFormat.mini), 'short');
+
       final replacement = en.locale.long.copyWith(now: 'replacement');
       final updated = en.locale.formats.copyWith(long: replacement);
 
@@ -153,8 +161,15 @@ void main() {
 
       final withoutMini = updated.copyWith(clearMini: true);
       expect(withoutMini.exact(TimeAgoFormat.mini), isNull);
-      expect(withoutMini.resolve(TimeAgoFormat.mini), same(en.locale.narrow));
+      expect(withoutMini.resolve(TimeAgoFormat.mini), same(en.locale.narrow!));
       expect(withoutMini.supports(TimeAgoFormat.mini), isFalse);
+
+      final withoutNarrow = withoutMini.copyWith(clearNarrow: true);
+      expect(withoutNarrow.exact(TimeAgoFormat.narrow), isNull);
+      expect(
+          withoutNarrow.resolve(TimeAgoFormat.narrow), same(en.locale.short));
+      expect(withoutNarrow.resolve(TimeAgoFormat.mini), same(en.locale.short));
+      expect(withoutNarrow.supports(TimeAgoFormat.narrow), isFalse);
     });
 
     test('locale configuration preserves defaults and accepts overrides', () {
@@ -183,7 +198,15 @@ void main() {
 
       final withoutMini = updated.copyWith(clearMini: true);
       expect(withoutMini.mini, isNull);
-      expect(withoutMini.labelsFor(TimeAgoFormat.mini), same(updated.narrow));
+      expect(withoutMini.labelsFor(TimeAgoFormat.mini), same(updated.narrow!));
+
+      final withoutNarrow = withoutMini.copyWith(clearNarrow: true);
+      expect(withoutNarrow.narrow, isNull);
+      expect(
+        withoutNarrow.labelsFor(TimeAgoFormat.narrow),
+        same(updated.short),
+      );
+      expect(withoutNarrow.supportsFormat(TimeAgoFormat.narrow), isFalse);
     });
   });
 }

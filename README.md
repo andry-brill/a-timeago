@@ -114,11 +114,13 @@ rounding.
 - `TimeAgoFormat.narrow`: CLDR narrow labels, such as `2m ago`, `in 2m`
 - `TimeAgoFormat.mini`: the shortest available labels, such as `2m`
 
-Every locale provides CLDR narrow labels. A locale can omit dedicated mini
-labels; mini then falls back to narrow. Use
-`locale.supportsFormat(TimeAgoFormat.mini)` to test for dedicated support.
+Every locale provides long and short labels. Dedicated narrow labels are kept
+only when they differ from short; otherwise narrow falls back to short. A
+locale can also omit dedicated mini labels, which fall back to narrow and then
+short. Use `locale.supportsFormat(format)` to test whether narrow or mini has
+dedicated labels instead of resolving a fallback.
 
-Multi-unit output uses the unit labels and localized list patterns of the selected presentation format. In English, the same interval is rendered as `2 years and 3 months ago`, `2 yr and 3 mo ago`, `2y and 3mo ago`, or `2yr 3mo` for long, short, narrow, and mini respectively.
+Multi-unit output uses the unit labels and localized list patterns of the selected presentation format. In English, the same interval is rendered as `2 years and 3 months ago`, `2 yr and 3 mo ago`, `2y and 3mo ago`, or `2y 3mo` for long, short, narrow, and mini respectively.
 
 ### 197 localizations
 
@@ -130,11 +132,11 @@ formatting call or provide it once with `TimeAgoProvider`:
 timeAgo(message.sentAt, locale: it.locale);
 ```
 
-Every bundled locale provides long, short, and narrow labels. Dedicated mini
-labels are included where available and otherwise fall back to narrow.
-Localized numbers and plural rules are powered by `package:intl`. See
-[Locale customization](#locale-customization) to override individual labels or
-locale operations.
+Every bundled locale provides long and short labels. Dedicated narrow and mini
+labels are included where they add a distinct width; otherwise they resolve
+through the fallback chain described above. Localized numbers and plural rules
+are powered by `package:intl`. See [Locale customization](#locale-customization)
+to override individual labels or locale operations.
 
 ### Step presets
 
@@ -368,8 +370,9 @@ directly when formatting needs behavior beyond translated plural labels.
 
 The translation helper localizes numbers, selects plural forms and label
 widths, applies cutoffs, and composes past or future direction using the
-selected locale. Long, short, and narrow labels are required; mini is optional
-and falls back to narrow. For languages whose unit changes grammatical form,
+selected locale. Long and short labels are required; narrow and mini are
+optional. Narrow falls back to short, while mini falls back to narrow and then
+short. For languages whose unit changes grammatical form,
 provide explicit `TimeAgoFormatSet<TimeAgoRelativeUnitLabels>` values through
 `relative`.
 
@@ -531,10 +534,10 @@ Intl directly. Call initialization before `runApp()`; until it completes, date
 operations use the configured fallback. Failed lookups are not cached, so
 subsequent calls use Intl after initialization.
 
-Formats are stored in an immutable `TimeAgoFormatSet`: `long`, `short`, and
-`narrow` are required, while `mini` is nullable. `labelsFor()` resolves an
-unavailable mini format to narrow; `formats.exact()` and `supportsFormat()`
-expose exact availability without applying that fallback.
+Formats are stored in an immutable `TimeAgoFormatSet`: `long` and `short` are
+required, while `narrow` and `mini` are nullable. `labelsFor()` resolves narrow
+to short and mini to narrow then short. `formats.exact()` and
+`supportsFormat()` expose exact availability without applying those fallbacks.
 
 Locale files document their exact source provenance. Relative labels come from
 the checked-in `javascript-time-ago` locale sources, wording is cross-checked

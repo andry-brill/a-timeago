@@ -62,6 +62,17 @@ const _long = TimeAgoFormatLabels(
   ),
 );
 
+const _shortNarrowUnits = TimeAgoUnitLabels(
+  second: TimeAgoPluralLabels.same('{0} ছেকেণ্ড'),
+  minute: TimeAgoPluralLabels.same('{0} মিনিট'),
+  hour: TimeAgoPluralLabels.same('{0} ঘণ্টা'),
+  day: TimeAgoPluralLabels.same('{0} দিন'),
+  week: TimeAgoPluralLabels.same('{0} সপ্তাহ'),
+  month: TimeAgoPluralLabels.same('{0} মাহ'),
+  quarter: TimeAgoPluralLabels.same('{0} তিনি মাহ'),
+  year: TimeAgoPluralLabels.same('{0} বছৰ'),
+);
+
 const _short = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
@@ -83,16 +94,7 @@ const _short = TimeAgoFormatLabels(
     year: TimeAgoRelativeUnitLabels.same(
         current: 'এই বছৰ', past: '{0} বছৰৰ পূৰ্বে', future: '{0} বছৰত'),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} ছেকেণ্ড'),
-    minute: TimeAgoPluralLabels.same('{0} মিনিট'),
-    hour: TimeAgoPluralLabels.same('{0} ঘণ্টা'),
-    day: TimeAgoPluralLabels.same('{0} দিন'),
-    week: TimeAgoPluralLabels.same('{0} সপ্তাহ'),
-    month: TimeAgoPluralLabels.same('{0} মাহ'),
-    quarter: TimeAgoPluralLabels.same('{0} তিনি মাহ'),
-    year: TimeAgoPluralLabels.same('{0} বছৰ'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',
@@ -126,16 +128,7 @@ const _narrow = TimeAgoFormatLabels(
     year: TimeAgoRelativeUnitLabels.same(
         current: 'এই বছৰ', past: '{0} বছৰৰ পূৰ্বে', future: '{0} বছৰত'),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} ছেকেণ্ড'),
-    minute: TimeAgoPluralLabels.same('{0} মিনিট'),
-    hour: TimeAgoPluralLabels.same('{0} ঘণ্টা'),
-    day: TimeAgoPluralLabels.same('{0} দিন'),
-    week: TimeAgoPluralLabels.same('{0} সপ্তাহ'),
-    month: TimeAgoPluralLabels.same('{0} মাহ'),
-    quarter: TimeAgoPluralLabels.same('{0} তিনি মাহ'),
-    year: TimeAgoPluralLabels.same('{0} বছৰ'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',

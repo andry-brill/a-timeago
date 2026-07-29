@@ -86,6 +86,17 @@ const _long = TimeAgoFormatLabels(
   ),
 );
 
+const _shortNarrowUnits = TimeAgoUnitLabels(
+  second: TimeAgoPluralLabels.same('{0} s'),
+  minute: TimeAgoPluralLabels.same('{0} min'),
+  hour: TimeAgoPluralLabels.same('{0} h'),
+  day: TimeAgoPluralLabels(one: '{0} dia', other: '{0} dies'),
+  week: TimeAgoPluralLabels.same('{0} setm.'),
+  month: TimeAgoPluralLabels(one: '{0} mes', other: '{0} mesos'),
+  quarter: TimeAgoPluralLabels.same('{0} trim.'),
+  year: TimeAgoPluralLabels(one: '{0} any', other: '{0} anys'),
+);
+
 const _short = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
@@ -120,16 +131,7 @@ const _short = TimeAgoFormatLabels(
         future: TimeAgoPluralLabels(
             one: 'd’aquí a {0} any', other: 'd’aquí a {0} anys')),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} s'),
-    minute: TimeAgoPluralLabels.same('{0} min'),
-    hour: TimeAgoPluralLabels.same('{0} h'),
-    day: TimeAgoPluralLabels(one: '{0} dia', other: '{0} dies'),
-    week: TimeAgoPluralLabels.same('{0} setm.'),
-    month: TimeAgoPluralLabels(one: '{0} mes', other: '{0} mesos'),
-    quarter: TimeAgoPluralLabels.same('{0} trim.'),
-    year: TimeAgoPluralLabels(one: '{0} any', other: '{0} anys'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',
@@ -176,16 +178,7 @@ const _narrow = TimeAgoFormatLabels(
         future: TimeAgoPluralLabels(
             one: 'd’aquí a {0} any', other: 'd’aquí a {0} anys')),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} s'),
-    minute: TimeAgoPluralLabels.same('{0} min'),
-    hour: TimeAgoPluralLabels.same('{0} h'),
-    day: TimeAgoPluralLabels(one: '{0} dia', other: '{0} dies'),
-    week: TimeAgoPluralLabels.same('{0} setm.'),
-    month: TimeAgoPluralLabels(one: '{0} mes', other: '{0} mesos'),
-    quarter: TimeAgoPluralLabels.same('{0} trim.'),
-    year: TimeAgoPluralLabels(one: '{0} any', other: '{0} anys'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',

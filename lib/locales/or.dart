@@ -68,6 +68,17 @@ const _long = TimeAgoFormatLabels(
   ),
 );
 
+const _shortNarrowUnits = TimeAgoUnitLabels(
+  second: TimeAgoPluralLabels.same('{0} ସେ.'),
+  minute: TimeAgoPluralLabels.same('{0} ମି.'),
+  hour: TimeAgoPluralLabels.same('{0} ଘ.'),
+  day: TimeAgoPluralLabels.same('{0} ଦିନ'),
+  week: TimeAgoPluralLabels.same('{0} ସପ୍ତା.'),
+  month: TimeAgoPluralLabels.same('{0} ମା.'),
+  quarter: TimeAgoPluralLabels.same('{0} ତ୍ରୟ.'),
+  year: TimeAgoPluralLabels.same('{0} ବ.'),
+);
+
 const _short = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
@@ -91,16 +102,7 @@ const _short = TimeAgoFormatLabels(
     year: TimeAgoRelativeUnitLabels.same(
         current: 'ଏହି ବର୍ଷ', past: '{0} ବ. ପୂର୍ବେ', future: '{0} ବ. ରେ'),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} ସେ.'),
-    minute: TimeAgoPluralLabels.same('{0} ମି.'),
-    hour: TimeAgoPluralLabels.same('{0} ଘ.'),
-    day: TimeAgoPluralLabels.same('{0} ଦିନ'),
-    week: TimeAgoPluralLabels.same('{0} ସପ୍ତା.'),
-    month: TimeAgoPluralLabels.same('{0} ମା.'),
-    quarter: TimeAgoPluralLabels.same('{0} ତ୍ରୟ.'),
-    year: TimeAgoPluralLabels.same('{0} ବ.'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',
@@ -136,16 +138,7 @@ const _narrow = TimeAgoFormatLabels(
     year: TimeAgoRelativeUnitLabels.same(
         current: 'ଏହି ବର୍ଷ', past: '{0} ବ. ପୂର୍ବେ', future: '{0} ବ. ରେ'),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} ସେ.'),
-    minute: TimeAgoPluralLabels.same('{0} ମି.'),
-    hour: TimeAgoPluralLabels.same('{0} ଘ.'),
-    day: TimeAgoPluralLabels.same('{0} ଦିନ'),
-    week: TimeAgoPluralLabels.same('{0} ସପ୍ତା.'),
-    month: TimeAgoPluralLabels.same('{0} ମା.'),
-    quarter: TimeAgoPluralLabels.same('{0} ତ୍ରୟ.'),
-    year: TimeAgoPluralLabels.same('{0} ବ.'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',

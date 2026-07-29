@@ -5,10 +5,10 @@ enum TimeAgoFormat {
   /// Official localized abbreviations.
   short,
 
-  /// Unicode CLDR narrow relative-time labels.
+  /// Unicode CLDR narrow relative-time labels. Falls back to [short].
   narrow,
 
-  /// The shortest available labels. Falls back to [narrow] if missing.
+  /// The shortest available labels. Falls back to [narrow], then [short].
   mini,
 }
 

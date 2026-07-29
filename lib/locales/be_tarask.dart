@@ -6,7 +6,6 @@ const LocaleConfig locale = LocaleConfig(
   formats: TimeAgoFormatSet(
     long: _long,
     short: _short,
-    narrow: _narrow,
     mini: null,
   ),
   now: TimeAgoNowLabels(
@@ -152,64 +151,6 @@ const _long = TimeAgoFormatLabels(
 );
 
 const _short = TimeAgoFormatLabels(
-  relative: TimeAgoRelativeLabels(
-    second: TimeAgoRelativeUnitLabels.same(
-        current: 'цяпер', past: '{0} с таму', future: 'праз {0} с'),
-    minute: TimeAgoRelativeUnitLabels.same(
-        current: 'у гэтую хвіліну', past: '{0} хв таму', future: 'праз {0} хв'),
-    hour: TimeAgoRelativeUnitLabels.same(
-        current: 'у гэтую гадзіну',
-        past: '{0} гадз таму',
-        future: 'праз {0} гадз'),
-    day: TimeAgoRelativeUnitLabels(
-        current: 'сёння',
-        past: TimeAgoPluralLabels(
-            one: '{0} дзень таму',
-            few: '{0} дні таму',
-            many: '{0} дзён таму',
-            other: '{0} дня таму'),
-        future: TimeAgoPluralLabels(
-            one: 'праз {0} дзень',
-            few: 'праз {0} дні',
-            many: 'праз {0} дзён',
-            other: 'праз {0} дня')),
-    week: TimeAgoRelativeUnitLabels.same(
-        current: 'на гэтым тыд.', past: '{0} тыд таму', future: 'праз {0} тыд'),
-    month: TimeAgoRelativeUnitLabels.same(
-        current: 'у гэтым мес.',
-        past: '{0} мес. таму',
-        future: 'праз {0} мес.'),
-    quarter: TimeAgoRelativeUnitLabels.same(
-        current: 'у гэтым квартале',
-        past: '{0} кв. таму',
-        future: 'праз {0} кв.'),
-    year: TimeAgoRelativeUnitLabels.same(
-        current: 'сёлета', past: '{0} г. таму', future: 'праз {0} г.'),
-  ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} с'),
-    minute: TimeAgoPluralLabels.same('{0} хв'),
-    hour: TimeAgoPluralLabels.same('{0} гадз'),
-    day: TimeAgoPluralLabels(
-        one: '{0} дзень', few: '{0} дні', many: '{0} дзён', other: '{0} дня'),
-    week: TimeAgoPluralLabels.same('{0} тыд'),
-    month: TimeAgoPluralLabels.same('{0} мес.'),
-    quarter: TimeAgoPluralLabels.same('{0} кв.'),
-    year: TimeAgoPluralLabels.same('{0} г.'),
-  ),
-  list: TimeAgoListPatterns(
-    pair: '{0}, {1}',
-    start: '{0}, {1}',
-    middle: '{0}, {1}',
-    end: '{0}, {1}',
-  ),
-  direction: TimeAgoDirectionPatterns(
-    past: '{0} таму',
-    future: 'праз {0}',
-  ),
-);
-
-const _narrow = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
         current: 'цяпер', past: '{0} с таму', future: 'праз {0} с'),

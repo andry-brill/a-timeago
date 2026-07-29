@@ -13,8 +13,9 @@ import 'time_ago_step.dart';
 /// change grammatical form after that wrapper.
 ///
 /// Supply [relative] when past or future phrases need dedicated plural or case
-/// forms. Mini labels are optional in both format sets and fall back to their
-/// narrow labels through [TimeAgoFormatSet.resolve].
+/// forms. Narrow and mini labels are optional in both format sets. Narrow
+/// falls back to short, while mini falls back to narrow and then short through
+/// [TimeAgoFormatSet.resolve].
 class TimeAgoCustomUnitFormatter {
   const TimeAgoCustomUnitFormatter({
     required this.units,

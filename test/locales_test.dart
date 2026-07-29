@@ -1,23 +1,36 @@
 import 'package:any_timeago/any_timeago.dart';
+import 'package:any_timeago/locales/ar.dart' as ar;
+import 'package:any_timeago/locales/ar_ae.dart' as ar_ae;
+import 'package:any_timeago/locales/as.dart' as assamese;
+import 'package:any_timeago/locales/blo.dart' as blo;
+import 'package:any_timeago/locales/ca.dart' as ca;
 import 'package:any_timeago/locales/da.dart' as da;
 import 'package:any_timeago/locales/de.dart' as de;
+import 'package:any_timeago/locales/doi.dart' as doi;
 import 'package:any_timeago/locales/el.dart' as el;
 import 'package:any_timeago/locales/en.dart' as en;
 import 'package:any_timeago/locales/en_us.dart' as en_us;
 import 'package:any_timeago/locales/eo.dart' as eo;
 import 'package:any_timeago/locales/es.dart' as es;
+import 'package:any_timeago/locales/fa.dart' as fa;
 import 'package:any_timeago/locales/fr.dart' as fr;
 import 'package:any_timeago/locales/hi.dart' as hi;
 import 'package:any_timeago/locales/id.dart' as id;
+import 'package:any_timeago/locales/is.dart' as icelandic;
 import 'package:any_timeago/locales/it.dart' as it;
 import 'package:any_timeago/locales/ko.dart' as ko;
 import 'package:any_timeago/locales/nb.dart' as nb;
 import 'package:any_timeago/locales/nl.dart' as nl;
+import 'package:any_timeago/locales/or.dart' as odia;
 import 'package:any_timeago/locales/pl.dart' as pl;
 import 'package:any_timeago/locales/pt.dart' as pt;
+import 'package:any_timeago/locales/pt_ao.dart' as pt_ao;
 import 'package:any_timeago/locales/ro.dart' as ro;
 import 'package:any_timeago/locales/ru.dart' as ru;
+import 'package:any_timeago/locales/shn.dart' as shn;
+import 'package:any_timeago/locales/so.dart' as so;
 import 'package:any_timeago/locales/sv.dart' as sv;
+import 'package:any_timeago/locales/uk.dart' as uk;
 import 'package:any_timeago/locales/zh.dart' as zh;
 import 'package:flutter_test/flutter_test.dart';
 
@@ -119,14 +132,18 @@ void main() {
     }
   });
 
-  test('reports exact format availability and falls back from mini to narrow',
-      () {
+  test('reports exact availability and resolves width fallbacks', () {
     expect(en.locale.supportsFormat(TimeAgoFormat.narrow), isTrue);
+    expect(es.locale.supportsFormat(TimeAgoFormat.narrow), isFalse);
     expect(it.locale.supportsFormat(TimeAgoFormat.narrow), isTrue);
     expect(nb.locale.supportsFormat(TimeAgoFormat.narrow), isTrue);
     expect(en.locale.supportsFormat(TimeAgoFormat.mini), isTrue);
     expect(it.locale.supportsFormat(TimeAgoFormat.mini), isFalse);
     expect(nb.locale.supportsFormat(TimeAgoFormat.mini), isFalse);
+    expect(
+      es.locale.labelsFor(TimeAgoFormat.narrow),
+      same(es.locale.short),
+    );
 
     expect(
       durationAgo(
@@ -203,7 +220,8 @@ void main() {
         if (unit == TimeAgoUnit.now) {
           continue;
         }
-        final narrowLabels = locale.narrow.units.forUnit(unit);
+        final narrowLabels =
+            locale.labelsFor(TimeAgoFormat.narrow).units.forUnit(unit);
         final miniLabels = mini.units.forUnit(unit);
         for (final category in TimeAgoPluralCategory.values) {
           final narrowPattern = narrowLabels.resolve(category);
@@ -219,17 +237,52 @@ void main() {
     }
   });
 
-  test('identical narrow and mini unit sets are shared', () {
-    const locales = <LocaleConfig>[
+  test('identical resolved narrow and mini unit sets are shared', () {
+    const exactNarrowLocales = <LocaleConfig>[
       en.locale,
-      es.locale,
       fr.locale,
-      ko.locale,
       sv.locale,
+    ];
+    for (final locale in exactNarrowLocales) {
+      expect(locale.mini!.units, same(locale.narrow!.units));
+    }
+
+    const shortFallbackLocales = <LocaleConfig>[
+      es.locale,
+      ko.locale,
       zh.locale,
     ];
+    for (final locale in shortFallbackLocales) {
+      expect(locale.mini!.units, same(locale.short.units));
+    }
+  });
+
+  test('short and narrow unit sets are shared in partial-match locales', () {
+    const locales = <LocaleConfig>[
+      ar.locale,
+      ar_ae.locale,
+      assamese.locale,
+      blo.locale,
+      ca.locale,
+      doi.locale,
+      fa.locale,
+      icelandic.locale,
+      odia.locale,
+      pt_ao.locale,
+      shn.locale,
+      so.locale,
+      uk.locale,
+    ];
+
     for (final locale in locales) {
-      expect(locale.mini!.units, same(locale.narrow.units));
+      final narrow = locale.narrow!;
+      expect(narrow.units, same(locale.short.units));
+      expect(
+        identical(narrow.relative, locale.short.relative) &&
+            identical(narrow.list, locale.short.list) &&
+            identical(narrow.direction, locale.short.direction),
+        isFalse,
+      );
     }
   });
 
@@ -288,10 +341,10 @@ void main() {
           ),
         ),
       ),
-      narrow: en.locale.narrow.copyWith(
-        relative: en.locale.narrow.relative.copyWith(
-          minute: en.locale.narrow.relative.minute.copyWith(
-            past: en.locale.narrow.relative.minute.past.copyWith(
+      narrow: en.locale.narrow!.copyWith(
+        relative: en.locale.narrow!.relative.copyWith(
+          minute: en.locale.narrow!.relative.minute.copyWith(
+            past: en.locale.narrow!.relative.minute.past.copyWith(
               other: '{0}xm ago',
             ),
           ),

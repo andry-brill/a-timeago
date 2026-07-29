@@ -7,7 +7,6 @@ const LocaleConfig locale = LocaleConfig(
   formats: TimeAgoFormatSet(
     long: _long,
     short: _short,
-    narrow: _narrow,
     mini: null,
   ),
   now: TimeAgoNowLabels(
@@ -97,53 +96,6 @@ const _long = TimeAgoFormatLabels(
 );
 
 const _short = TimeAgoFormatLabels(
-  relative: TimeAgoRelativeLabels(
-    second: TimeAgoRelativeUnitLabels.same(
-        current: 'ahora', past: 'hace {0} seg.', future: 'dentro de {0} seg.'),
-    minute: TimeAgoRelativeUnitLabels.same(
-        current: 'este minuto',
-        past: 'hace {0} min',
-        future: 'dentro de {0} min'),
-    hour: TimeAgoRelativeUnitLabels.same(
-        current: 'esta hora', past: 'hace {0} h', future: 'dentro de {0} h'),
-    day: TimeAgoRelativeUnitLabels.same(
-        current: 'hoy', past: 'hace {0} días', future: 'dentro de {0} días'),
-    week: TimeAgoRelativeUnitLabels.same(
-        current: 'esta sem.',
-        past: 'hace {0} sem.',
-        future: 'dentro de {0} sem.'),
-    month: TimeAgoRelativeUnitLabels.same(
-        current: 'este mes', past: 'hace {0} m', future: 'dentro de {0} m'),
-    quarter: TimeAgoRelativeUnitLabels.same(
-        current: 'este trimestre',
-        past: 'hace {0} trim.',
-        future: 'dentro de {0} trim.'),
-    year: TimeAgoRelativeUnitLabels.same(
-        current: 'este año', past: 'hace {0} a', future: 'dentro de {0} a'),
-  ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} seg.'),
-    minute: TimeAgoPluralLabels.same('{0} min'),
-    hour: TimeAgoPluralLabels.same('{0} h'),
-    day: TimeAgoPluralLabels.same('{0} días'),
-    week: TimeAgoPluralLabels.same('{0} sem.'),
-    month: TimeAgoPluralLabels.same('{0} m'),
-    quarter: TimeAgoPluralLabels.same('{0} trim.'),
-    year: TimeAgoPluralLabels.same('{0} a'),
-  ),
-  list: TimeAgoListPatterns(
-    pair: '{0}, {1}',
-    start: '{0}, {1}',
-    middle: '{0}, {1}',
-    end: '{0}, {1}',
-  ),
-  direction: TimeAgoDirectionPatterns(
-    past: 'hace {0}',
-    future: 'dentro de {0}',
-  ),
-);
-
-const _narrow = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
         current: 'ahora', past: 'hace {0} seg.', future: 'dentro de {0} seg.'),

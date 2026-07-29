@@ -175,6 +175,40 @@ const _long = TimeAgoFormatLabels(
   ),
 );
 
+const _shortNarrowUnits = TimeAgoUnitLabels(
+  second: TimeAgoPluralLabels(
+      one: 'ثانية واحدة', two: 'ثانيتين', few: '{0} ثوانٍ', other: '{0} ثانية'),
+  minute: TimeAgoPluralLabels(
+      one: 'دقيقة واحدة', two: 'دقيقتين', few: '{0} دقائق', other: '{0} دقيقة'),
+  hour: TimeAgoPluralLabels(
+      one: 'ساعة واحدة', two: 'ساعتين', few: '{0} ساعات', other: '{0} ساعة'),
+  day: TimeAgoPluralLabels(
+      one: 'يوم واحد',
+      two: 'يومين',
+      few: '{0} أيام',
+      many: '{0} يومًا',
+      other: '{0} يوم'),
+  week: TimeAgoPluralLabels(
+      one: 'أسبوع واحد',
+      two: 'أسبوعين',
+      few: '{0} أسابيع',
+      many: '{0} أسبوعًا',
+      other: '{0} أسبوع'),
+  month: TimeAgoPluralLabels(
+      one: 'شهر واحد',
+      two: 'شهرين',
+      few: '{0} أشهر',
+      many: '{0} شهرًا',
+      other: '{0} شهر'),
+  quarter: TimeAgoPluralLabels(
+      one: 'ربع سنة واحد',
+      two: 'ربعي سنة',
+      few: '{0} أرباع سنة',
+      other: '{0} ربع سنة'),
+  year: TimeAgoPluralLabels(
+      one: 'سنة واحدة', two: 'سنتين', few: '{0} سنوات', other: '{0} سنة'),
+);
+
 const _short = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels(
@@ -280,45 +314,7 @@ const _short = TimeAgoFormatLabels(
             few: 'خلال {0} سنوات',
             other: 'خلال {0} سنة')),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels(
-        one: 'ثانية واحدة',
-        two: 'ثانيتين',
-        few: '{0} ثوانٍ',
-        other: '{0} ثانية'),
-    minute: TimeAgoPluralLabels(
-        one: 'دقيقة واحدة',
-        two: 'دقيقتين',
-        few: '{0} دقائق',
-        other: '{0} دقيقة'),
-    hour: TimeAgoPluralLabels(
-        one: 'ساعة واحدة', two: 'ساعتين', few: '{0} ساعات', other: '{0} ساعة'),
-    day: TimeAgoPluralLabels(
-        one: 'يوم واحد',
-        two: 'يومين',
-        few: '{0} أيام',
-        many: '{0} يومًا',
-        other: '{0} يوم'),
-    week: TimeAgoPluralLabels(
-        one: 'أسبوع واحد',
-        two: 'أسبوعين',
-        few: '{0} أسابيع',
-        many: '{0} أسبوعًا',
-        other: '{0} أسبوع'),
-    month: TimeAgoPluralLabels(
-        one: 'شهر واحد',
-        two: 'شهرين',
-        few: '{0} أشهر',
-        many: '{0} شهرًا',
-        other: '{0} شهر'),
-    quarter: TimeAgoPluralLabels(
-        one: 'ربع سنة واحد',
-        two: 'ربعي سنة',
-        few: '{0} أرباع سنة',
-        other: '{0} ربع سنة'),
-    year: TimeAgoPluralLabels(
-        one: 'سنة واحدة', two: 'سنتين', few: '{0} سنوات', other: '{0} سنة'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',
@@ -436,45 +432,7 @@ const _narrow = TimeAgoFormatLabels(
             few: 'خلال {0} سنوات',
             other: 'خلال {0} سنة')),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels(
-        one: 'ثانية واحدة',
-        two: 'ثانيتين',
-        few: '{0} ثوانٍ',
-        other: '{0} ثانية'),
-    minute: TimeAgoPluralLabels(
-        one: 'دقيقة واحدة',
-        two: 'دقيقتين',
-        few: '{0} دقائق',
-        other: '{0} دقيقة'),
-    hour: TimeAgoPluralLabels(
-        one: 'ساعة واحدة', two: 'ساعتين', few: '{0} ساعات', other: '{0} ساعة'),
-    day: TimeAgoPluralLabels(
-        one: 'يوم واحد',
-        two: 'يومين',
-        few: '{0} أيام',
-        many: '{0} يومًا',
-        other: '{0} يوم'),
-    week: TimeAgoPluralLabels(
-        one: 'أسبوع واحد',
-        two: 'أسبوعين',
-        few: '{0} أسابيع',
-        many: '{0} أسبوعًا',
-        other: '{0} أسبوع'),
-    month: TimeAgoPluralLabels(
-        one: 'شهر واحد',
-        two: 'شهرين',
-        few: '{0} أشهر',
-        many: '{0} شهرًا',
-        other: '{0} شهر'),
-    quarter: TimeAgoPluralLabels(
-        one: 'ربع سنة واحد',
-        two: 'ربعي سنة',
-        few: '{0} أرباع سنة',
-        other: '{0} ربع سنة'),
-    year: TimeAgoPluralLabels(
-        one: 'سنة واحدة', two: 'سنتين', few: '{0} سنوات', other: '{0} سنة'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',

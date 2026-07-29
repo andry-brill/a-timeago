@@ -6,7 +6,6 @@ const LocaleConfig locale = LocaleConfig(
   formats: TimeAgoFormatSet(
     long: _long,
     short: _short,
-    narrow: _narrow,
     mini: _mini,
   ),
   now: TimeAgoNowLabels(
@@ -146,16 +145,7 @@ const _short = TimeAgoFormatLabels(
     year: TimeAgoRelativeUnitLabels.same(
         current: 'este año', past: 'hace {0} a', future: 'dentro de {0} a'),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} s'),
-    minute: TimeAgoPluralLabels.same('{0} min'),
-    hour: TimeAgoPluralLabels.same('{0} h'),
-    day: TimeAgoPluralLabels.same('{0} d'),
-    week: TimeAgoPluralLabels.same('{0} sem.'),
-    month: TimeAgoPluralLabels.same('{0} m'),
-    quarter: TimeAgoPluralLabels.same('{0} trim.'),
-    year: TimeAgoPluralLabels.same('{0} a'),
-  ),
+  units: _compactUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',
@@ -168,7 +158,7 @@ const _short = TimeAgoFormatLabels(
   ),
 );
 
-const _narrowUnits = TimeAgoUnitLabels(
+const _compactUnits = TimeAgoUnitLabels(
   second: TimeAgoPluralLabels.same('{0} s'),
   minute: TimeAgoPluralLabels.same('{0} min'),
   hour: TimeAgoPluralLabels.same('{0} h'),
@@ -177,44 +167,6 @@ const _narrowUnits = TimeAgoUnitLabels(
   month: TimeAgoPluralLabels.same('{0} m'),
   quarter: TimeAgoPluralLabels.same('{0} trim.'),
   year: TimeAgoPluralLabels.same('{0} a'),
-);
-
-const _narrow = TimeAgoFormatLabels(
-  relative: TimeAgoRelativeLabels(
-    second: TimeAgoRelativeUnitLabels.same(
-        current: 'ahora', past: 'hace {0} s', future: 'dentro de {0} s'),
-    minute: TimeAgoRelativeUnitLabels.same(
-        current: 'este minuto',
-        past: 'hace {0} min',
-        future: 'dentro de {0} min'),
-    hour: TimeAgoRelativeUnitLabels.same(
-        current: 'esta hora', past: 'hace {0} h', future: 'dentro de {0} h'),
-    day: TimeAgoRelativeUnitLabels.same(
-        current: 'hoy', past: 'hace {0} d', future: 'dentro de {0} d'),
-    week: TimeAgoRelativeUnitLabels.same(
-        current: 'esta sem.',
-        past: 'hace {0} sem.',
-        future: 'dentro de {0} sem.'),
-    month: TimeAgoRelativeUnitLabels.same(
-        current: 'este mes', past: 'hace {0} m', future: 'dentro de {0} m'),
-    quarter: TimeAgoRelativeUnitLabels.same(
-        current: 'este trimestre',
-        past: 'hace {0} trim.',
-        future: 'dentro de {0} trim.'),
-    year: TimeAgoRelativeUnitLabels.same(
-        current: 'este año', past: 'hace {0} a', future: 'dentro de {0} a'),
-  ),
-  units: _narrowUnits,
-  list: TimeAgoListPatterns(
-    pair: '{0}, {1}',
-    start: '{0}, {1}',
-    middle: '{0}, {1}',
-    end: '{0}, {1}',
-  ),
-  direction: TimeAgoDirectionPatterns(
-    past: 'hace {0}',
-    future: 'dentro de {0}',
-  ),
 );
 
 const _mini = TimeAgoFormatLabels(
@@ -249,7 +201,7 @@ const _mini = TimeAgoFormatLabels(
         future: TimeAgoPluralLabels(
             one: 'dentro de {0} año', other: 'dentro de {0} años')),
   ),
-  units: _narrowUnits,
+  units: _compactUnits,
   list: TimeAgoListPatterns(
     pair: '{0} {1}',
     start: '{0} {1}',

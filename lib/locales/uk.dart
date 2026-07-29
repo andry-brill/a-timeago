@@ -151,6 +151,17 @@ const _long = TimeAgoFormatLabels(
   ),
 );
 
+const _shortNarrowUnits = TimeAgoUnitLabels(
+  second: TimeAgoPluralLabels.same('{0} с'),
+  minute: TimeAgoPluralLabels.same('{0} хв'),
+  hour: TimeAgoPluralLabels.same('{0} год'),
+  day: TimeAgoPluralLabels.same('{0} дн.'),
+  week: TimeAgoPluralLabels.same('{0} тиж.'),
+  month: TimeAgoPluralLabels.same('{0} міс.'),
+  quarter: TimeAgoPluralLabels.same('{0} кв.'),
+  year: TimeAgoPluralLabels.same('{0} р.'),
+);
+
 const _short = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
@@ -174,16 +185,7 @@ const _short = TimeAgoFormatLabels(
     year: TimeAgoRelativeUnitLabels.same(
         current: 'цьогоріч', past: '{0} р. тому', future: 'через {0} р.'),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} с'),
-    minute: TimeAgoPluralLabels.same('{0} хв'),
-    hour: TimeAgoPluralLabels.same('{0} год'),
-    day: TimeAgoPluralLabels.same('{0} дн.'),
-    week: TimeAgoPluralLabels.same('{0} тиж.'),
-    month: TimeAgoPluralLabels.same('{0} міс.'),
-    quarter: TimeAgoPluralLabels.same('{0} кв.'),
-    year: TimeAgoPluralLabels.same('{0} р.'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',
@@ -215,16 +217,7 @@ const _narrow = TimeAgoFormatLabels(
     year: TimeAgoRelativeUnitLabels.same(
         current: 'цього року', past: '{0} р. тому', future: 'за {0} р.'),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} с'),
-    minute: TimeAgoPluralLabels.same('{0} хв'),
-    hour: TimeAgoPluralLabels.same('{0} год'),
-    day: TimeAgoPluralLabels.same('{0} дн.'),
-    week: TimeAgoPluralLabels.same('{0} тиж.'),
-    month: TimeAgoPluralLabels.same('{0} міс.'),
-    quarter: TimeAgoPluralLabels.same('{0} кв.'),
-    year: TimeAgoPluralLabels.same('{0} р.'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',

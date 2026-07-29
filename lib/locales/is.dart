@@ -92,6 +92,17 @@ const _long = TimeAgoFormatLabels(
   ),
 );
 
+const _shortNarrowUnits = TimeAgoUnitLabels(
+  second: TimeAgoPluralLabels.same('{0} sek.'),
+  minute: TimeAgoPluralLabels.same('{0} mín.'),
+  hour: TimeAgoPluralLabels.same('{0} klst.'),
+  day: TimeAgoPluralLabels(one: '{0} d', other: '{0} d'),
+  week: TimeAgoPluralLabels(one: '{0} viku', other: '{0} viku'),
+  month: TimeAgoPluralLabels.same('{0} mán.'),
+  quarter: TimeAgoPluralLabels.same('{0} ársfj.'),
+  year: TimeAgoPluralLabels(one: '{0} ár', other: '{0} ár'),
+);
+
 const _short = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
@@ -130,16 +141,7 @@ const _short = TimeAgoFormatLabels(
             TimeAgoPluralLabels(one: 'fyrir {0} ári', other: 'fyrir {0} árum'),
         future: TimeAgoPluralLabels.same('eftir {0} ár')),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} sek.'),
-    minute: TimeAgoPluralLabels.same('{0} mín.'),
-    hour: TimeAgoPluralLabels.same('{0} klst.'),
-    day: TimeAgoPluralLabels(one: '{0} d', other: '{0} d'),
-    week: TimeAgoPluralLabels(one: '{0} viku', other: '{0} viku'),
-    month: TimeAgoPluralLabels.same('{0} mán.'),
-    quarter: TimeAgoPluralLabels.same('{0} ársfj.'),
-    year: TimeAgoPluralLabels(one: '{0} ár', other: '{0} ár'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',
@@ -186,16 +188,7 @@ const _narrow = TimeAgoFormatLabels(
             TimeAgoPluralLabels(one: 'fyrir {0} ári', other: 'fyrir {0} árum'),
         future: TimeAgoPluralLabels.same('eftir {0} ár')),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} sek.'),
-    minute: TimeAgoPluralLabels.same('{0} mín.'),
-    hour: TimeAgoPluralLabels.same('{0} klst.'),
-    day: TimeAgoPluralLabels(one: '{0} d', other: '{0} d'),
-    week: TimeAgoPluralLabels(one: '{0} viku', other: '{0} viku'),
-    month: TimeAgoPluralLabels.same('{0} mán.'),
-    quarter: TimeAgoPluralLabels.same('{0} ársfj.'),
-    year: TimeAgoPluralLabels(one: '{0} ár', other: '{0} ár'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',

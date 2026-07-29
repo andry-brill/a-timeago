@@ -76,6 +76,17 @@ const _long = TimeAgoFormatLabels(
   ),
 );
 
+const _shortNarrowUnits = TimeAgoUnitLabels(
+  second: TimeAgoPluralLabels.same('{0} ၸႅၵ်'),
+  minute: TimeAgoPluralLabels.same('{0} မိၼိတ်ႉ'),
+  hour: TimeAgoPluralLabels.same('{0} ၸူဝ်ႈမူင်း'),
+  day: TimeAgoPluralLabels.same('{0} ဝၼ်း'),
+  week: TimeAgoPluralLabels.same('{0} ဝူင်ႈ'),
+  month: TimeAgoPluralLabels.same('{0} လိူၼ်'),
+  quarter: TimeAgoPluralLabels.same('{0} သလႁ.'),
+  year: TimeAgoPluralLabels.same('{0} ပီ'),
+);
+
 const _short = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
@@ -111,16 +122,7 @@ const _short = TimeAgoFormatLabels(
         past: '{0} ပီ ပူၼ်ႉမႃး',
         future: 'ၼႂ်းၶၢဝ်းတၢင်း {0} ပီ'),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} ၸႅၵ်'),
-    minute: TimeAgoPluralLabels.same('{0} မိၼိတ်ႉ'),
-    hour: TimeAgoPluralLabels.same('{0} ၸူဝ်ႈမူင်း'),
-    day: TimeAgoPluralLabels.same('{0} ဝၼ်း'),
-    week: TimeAgoPluralLabels.same('{0} ဝူင်ႈ'),
-    month: TimeAgoPluralLabels.same('{0} လိူၼ်'),
-    quarter: TimeAgoPluralLabels.same('{0} သလႁ.'),
-    year: TimeAgoPluralLabels.same('{0} ပီ'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',
@@ -168,16 +170,7 @@ const _narrow = TimeAgoFormatLabels(
         past: '{0} ပီ ပူၼ်ႉမႃး',
         future: 'ၼႂ်းၶၢဝ်းတၢင်း {0} ပီ'),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} ၸႅၵ်'),
-    minute: TimeAgoPluralLabels.same('{0} မိၼိတ်ႉ'),
-    hour: TimeAgoPluralLabels.same('{0} ၸူဝ်ႈမူင်း'),
-    day: TimeAgoPluralLabels.same('{0} ဝၼ်း'),
-    week: TimeAgoPluralLabels.same('{0} ဝူင်ႈ'),
-    month: TimeAgoPluralLabels.same('{0} လိူၼ်'),
-    quarter: TimeAgoPluralLabels.same('{0} သလႁ.'),
-    year: TimeAgoPluralLabels.same('{0} ပီ'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',

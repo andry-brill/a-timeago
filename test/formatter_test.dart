@@ -1187,7 +1187,7 @@ void main() {
         short: en.locale.short.copyWith(
           cutoffResolver: _shortCutoffResolver,
         ),
-        narrow: en.locale.narrow.copyWith(
+        narrow: en.locale.narrow!.copyWith(
           cutoffResolver: _narrowCutoffResolver,
         ),
         mini: en.locale.mini!.copyWith(

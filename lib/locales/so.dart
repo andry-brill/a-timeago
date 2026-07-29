@@ -78,6 +78,17 @@ const _long = TimeAgoFormatLabels(
   ),
 );
 
+const _shortNarrowUnits = TimeAgoUnitLabels(
+  second: TimeAgoPluralLabels.same('{0} ilbrqsi'),
+  minute: TimeAgoPluralLabels(one: '{0} dqqd', other: '{0} d'),
+  hour: TimeAgoPluralLabels.same('{0} scd'),
+  day: TimeAgoPluralLabels(one: '{0} mln', other: '{0} mlmd'),
+  week: TimeAgoPluralLabels.same('{0} tdbd'),
+  month: TimeAgoPluralLabels.same('{0} bil'),
+  quarter: TimeAgoPluralLabels.same('{0} rbc'),
+  year: TimeAgoPluralLabels(one: '{0} snd', other: '{0} Snd'),
+);
+
 const _short = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
@@ -104,16 +115,7 @@ const _short = TimeAgoFormatLabels(
         past: TimeAgoPluralLabels(one: '{0} snd khr', other: '{0} Snd khr'),
         future: TimeAgoPluralLabels.same('{0} snd')),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} ilbrqsi'),
-    minute: TimeAgoPluralLabels(one: '{0} dqqd', other: '{0} d'),
-    hour: TimeAgoPluralLabels.same('{0} scd'),
-    day: TimeAgoPluralLabels(one: '{0} mln', other: '{0} mlmd'),
-    week: TimeAgoPluralLabels.same('{0} tdbd'),
-    month: TimeAgoPluralLabels.same('{0} bil'),
-    quarter: TimeAgoPluralLabels.same('{0} rbc'),
-    year: TimeAgoPluralLabels(one: '{0} snd', other: '{0} Snd'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',
@@ -152,16 +154,7 @@ const _narrow = TimeAgoFormatLabels(
         past: TimeAgoPluralLabels(one: '{0} snd khr', other: '{0} Snd khr'),
         future: TimeAgoPluralLabels.same('{0} snd')),
   ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} ilbrqsi'),
-    minute: TimeAgoPluralLabels(one: '{0} dqqd', other: '{0} d'),
-    hour: TimeAgoPluralLabels.same('{0} scd'),
-    day: TimeAgoPluralLabels(one: '{0} mln', other: '{0} mlmd'),
-    week: TimeAgoPluralLabels.same('{0} tdbd'),
-    month: TimeAgoPluralLabels.same('{0} bil'),
-    quarter: TimeAgoPluralLabels.same('{0} rbc'),
-    year: TimeAgoPluralLabels(one: '{0} snd', other: '{0} Snd'),
-  ),
+  units: _shortNarrowUnits,
   list: TimeAgoListPatterns(
     pair: '{0}, {1}',
     start: '{0}, {1}',

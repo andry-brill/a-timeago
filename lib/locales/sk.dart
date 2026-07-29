@@ -6,7 +6,6 @@ const LocaleConfig locale = LocaleConfig(
   formats: TimeAgoFormatSet(
     long: _long,
     short: _short,
-    narrow: _narrow,
     mini: null,
   ),
   now: TimeAgoNowLabels(
@@ -159,49 +158,6 @@ const _long = TimeAgoFormatLabels(
 );
 
 const _short = TimeAgoFormatLabels(
-  relative: TimeAgoRelativeLabels(
-    second: TimeAgoRelativeUnitLabels.same(
-        current: 'teraz', past: 'pred {0} s', future: 'o {0} s'),
-    minute: TimeAgoRelativeUnitLabels.same(
-        current: 'v tejto minúte', past: 'pred {0} min', future: 'o {0} min'),
-    hour: TimeAgoRelativeUnitLabels.same(
-        current: 'v tejto hodine', past: 'pred {0} h', future: 'o {0} h'),
-    day: TimeAgoRelativeUnitLabels.same(
-        current: 'dnes', past: 'pred {0} d.', future: 'o {0} d.'),
-    week: TimeAgoRelativeUnitLabels.same(
-        current: 'tento týž.', past: 'pred {0} týž.', future: 'o {0} týž.'),
-    month: TimeAgoRelativeUnitLabels.same(
-        current: 'tento mes.', past: 'pred {0} mes.', future: 'o {0} mes.'),
-    quarter: TimeAgoRelativeUnitLabels.same(
-        current: 'tento štvrťr.',
-        past: 'pred {0} štvrťr.',
-        future: 'o {0} štvrťr.'),
-    year: TimeAgoRelativeUnitLabels.same(
-        current: 'tento rok', past: 'pred {0} r.', future: 'o {0} r.'),
-  ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} s'),
-    minute: TimeAgoPluralLabels.same('{0} min'),
-    hour: TimeAgoPluralLabels.same('{0} h'),
-    day: TimeAgoPluralLabels.same('{0} d.'),
-    week: TimeAgoPluralLabels.same('{0} týž.'),
-    month: TimeAgoPluralLabels.same('{0} mes.'),
-    quarter: TimeAgoPluralLabels.same('{0} štvrťr.'),
-    year: TimeAgoPluralLabels.same('{0} r.'),
-  ),
-  list: TimeAgoListPatterns(
-    pair: '{0}, {1}',
-    start: '{0}, {1}',
-    middle: '{0}, {1}',
-    end: '{0}, {1}',
-  ),
-  direction: TimeAgoDirectionPatterns(
-    past: 'pred {0}',
-    future: 'o {0}',
-  ),
-);
-
-const _narrow = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
         current: 'teraz', past: 'pred {0} s', future: 'o {0} s'),

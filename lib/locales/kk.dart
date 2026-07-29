@@ -6,7 +6,6 @@ const LocaleConfig locale = LocaleConfig(
   formats: TimeAgoFormatSet(
     long: _long,
     short: _short,
-    narrow: _narrow,
     mini: null,
   ),
   now: TimeAgoNowLabels(
@@ -73,49 +72,6 @@ const _long = TimeAgoFormatLabels(
 );
 
 const _short = TimeAgoFormatLabels(
-  relative: TimeAgoRelativeLabels(
-    second: TimeAgoRelativeUnitLabels.same(
-        current: 'қазір', past: '{0} сек. бұрын', future: '{0} сек. кейін'),
-    minute: TimeAgoRelativeUnitLabels.same(
-        current: 'осы минут', past: '{0} мин. бұрын', future: '{0} мин. кейін'),
-    hour: TimeAgoRelativeUnitLabels.same(
-        current: 'осы сағат', past: '{0} сағ. бұрын', future: '{0} сағ. кейін'),
-    day: TimeAgoRelativeUnitLabels.same(
-        current: 'бүгін', past: '{0} күн бұрын', future: '{0} күннен кейін'),
-    week: TimeAgoRelativeUnitLabels.same(
-        current: 'осы апта', past: '{0} ап. бұрын', future: '{0} ап. кейін'),
-    month: TimeAgoRelativeUnitLabels.same(
-        current: 'осы ай', past: '{0} ай бұрын', future: '{0} айдан кейін'),
-    quarter: TimeAgoRelativeUnitLabels.same(
-        current: 'осы тоқсан',
-        past: '{0} тқс. бұрын',
-        future: '{0} тқс. кейін'),
-    year: TimeAgoRelativeUnitLabels.same(
-        current: 'биылғы жыл', past: '{0} ж. бұрын', future: '{0} ж. кейін'),
-  ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} сек.'),
-    minute: TimeAgoPluralLabels.same('{0} мин.'),
-    hour: TimeAgoPluralLabels.same('{0} сағ.'),
-    day: TimeAgoPluralLabels.same('{0} күн'),
-    week: TimeAgoPluralLabels.same('{0} ап.'),
-    month: TimeAgoPluralLabels.same('{0} ай'),
-    quarter: TimeAgoPluralLabels.same('{0} тқс.'),
-    year: TimeAgoPluralLabels.same('{0} ж.'),
-  ),
-  list: TimeAgoListPatterns(
-    pair: '{0}, {1}',
-    start: '{0}, {1}',
-    middle: '{0}, {1}',
-    end: '{0}, {1}',
-  ),
-  direction: TimeAgoDirectionPatterns(
-    past: '{0} бұрын',
-    future: '{0} кейін',
-  ),
-);
-
-const _narrow = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
         current: 'қазір', past: '{0} сек. бұрын', future: '{0} сек. кейін'),

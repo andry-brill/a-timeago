@@ -6,7 +6,6 @@ const LocaleConfig locale = LocaleConfig(
   formats: TimeAgoFormatSet(
     long: _long,
     short: _short,
-    narrow: _narrow,
     mini: null,
   ),
   now: TimeAgoNowLabels(
@@ -86,54 +85,6 @@ const _long = TimeAgoFormatLabels(
 );
 
 const _short = TimeAgoFormatLabels(
-  relative: TimeAgoRelativeLabels(
-    second: TimeAgoRelativeUnitLabels.same(
-        current: 'nou', past: '{0} s. gelede', future: 'oor {0} s.'),
-    minute: TimeAgoRelativeUnitLabels.same(
-        current: 'hierdie minuut',
-        past: '{0} min. gelede',
-        future: 'oor {0} min.'),
-    hour: TimeAgoRelativeUnitLabels.same(
-        current: 'hierdie uur', past: '{0} u. gelede', future: 'oor {0} u.'),
-    day: TimeAgoRelativeUnitLabels(
-        current: 'vandag',
-        past:
-            TimeAgoPluralLabels(one: '{0} dag gelede', other: '{0} dae gelede'),
-        future: TimeAgoPluralLabels(one: 'oor {0} dag', other: 'oor {0} dae')),
-    week: TimeAgoRelativeUnitLabels.same(
-        current: 'hierdie w.', past: '{0} w. gelede', future: 'oor {0} w.'),
-    month: TimeAgoRelativeUnitLabels.same(
-        current: 'hierdie md.', past: '{0} md. gelede', future: 'oor {0} md.'),
-    quarter: TimeAgoRelativeUnitLabels.same(
-        current: 'hierdie kwartaal',
-        past: '{0} kw. gelede',
-        future: 'oor {0} kw.'),
-    year: TimeAgoRelativeUnitLabels.same(
-        current: 'hierdie j.', past: '{0} j. gelede', future: 'oor {0} j.'),
-  ),
-  units: TimeAgoUnitLabels(
-    second: TimeAgoPluralLabels.same('{0} s.'),
-    minute: TimeAgoPluralLabels.same('{0} min.'),
-    hour: TimeAgoPluralLabels.same('{0} u.'),
-    day: TimeAgoPluralLabels(one: '{0} dag', other: '{0} dae'),
-    week: TimeAgoPluralLabels.same('{0} w.'),
-    month: TimeAgoPluralLabels.same('{0} md.'),
-    quarter: TimeAgoPluralLabels.same('{0} kw.'),
-    year: TimeAgoPluralLabels.same('{0} j.'),
-  ),
-  list: TimeAgoListPatterns(
-    pair: '{0}, {1}',
-    start: '{0}, {1}',
-    middle: '{0}, {1}',
-    end: '{0}, {1}',
-  ),
-  direction: TimeAgoDirectionPatterns(
-    past: '{0} gelede',
-    future: 'oor {0}',
-  ),
-);
-
-const _narrow = TimeAgoFormatLabels(
   relative: TimeAgoRelativeLabels(
     second: TimeAgoRelativeUnitLabels.same(
         current: 'nou', past: '{0} s. gelede', future: 'oor {0} s.'),

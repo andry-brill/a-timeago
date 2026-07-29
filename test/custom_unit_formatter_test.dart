@@ -36,7 +36,7 @@ void main() {
       );
     });
 
-    test('selects widths and falls back from mini to narrow', () {
+    test('selects widths and resolves compact fallbacks', () {
       final twoCenturies = Duration(
         microseconds: TimeAgoUnit.year.microseconds * 200,
       );
@@ -58,6 +58,25 @@ void main() {
           expected,
         );
       }
+
+      expect(
+        durationAgo(
+          twoCenturies,
+          locale: en.locale,
+          format: TimeAgoFormat.narrow,
+          steps: const <TimeAgoStep>[_shortOnlyCenturyStep],
+        ),
+        '2 c ago',
+      );
+      expect(
+        durationAgo(
+          twoCenturies,
+          locale: en.locale,
+          format: TimeAgoFormat.mini,
+          steps: const <TimeAgoStep>[_shortOnlyCenturyStep],
+        ),
+        '2 c',
+      );
     });
 
     test('uses explicit directional forms when grammar requires them', () {
@@ -231,6 +250,20 @@ const _centuryUnit = TimeAgoCustomUnitTranslation(
 );
 
 const _centuryStep = TimeAgoStep.customUnit(_centuryUnit);
+
+const _shortOnlyCenturyStep = TimeAgoStep.customUnit(
+  TimeAgoCustomUnitTranslation(
+    unit: TimeAgoUnit.year,
+    unitMultiplier: 100,
+    units: TimeAgoFormatSet<TimeAgoPluralLabels>(
+      long: TimeAgoPluralLabels.oneOther(
+        one: '{0} century',
+        other: '{0} centuries',
+      ),
+      short: TimeAgoPluralLabels.same('{0} c'),
+    ),
+  ),
+);
 
 const _cappedCenturyStep = TimeAgoStep.customUnit(
   _centuryUnit,
