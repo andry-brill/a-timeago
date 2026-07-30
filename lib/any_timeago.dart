@@ -5,6 +5,7 @@ export 'src/enums.dart';
 export 'src/formatter.dart'
     show
         TimeAgoResult,
+        TimeAgoValue,
         durationAgo,
         durationAgoMulti,
         durationAgoMultiResult,

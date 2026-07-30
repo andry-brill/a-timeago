@@ -395,6 +395,110 @@ void main() {
     );
   });
 
+  testWidgets('renderer exposes complete results and follows update deadlines',
+      (
+    tester,
+  ) async {
+    var now = DateTime(2026, 1, 1, 12);
+    final time = now.subtract(const Duration(seconds: 29));
+    final scheduler = TimeAgoScheduler(clock: () => now);
+    TimeAgoResult? rendered;
+    var resolves = 0;
+    await tester.pumpWidget(
+      TimeAgoProvider(
+        locale: en.locale,
+        scheduler: scheduler,
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: TimeAgoRenderer(
+            timeAgo: (context) {
+              resolves++;
+              return context.timeAgoResult(time);
+            },
+            builder: (context, result) {
+              rendered = result;
+              return Text(result.text);
+            },
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('just now'), findsOneWidget);
+    expect(rendered!.values.single.step.unit, TimeAgoUnit.now);
+    expect(resolves, 1);
+
+    now = now.add(const Duration(seconds: 1));
+    await tester.pump(const Duration(seconds: 1));
+
+    expect(find.text('1 minute ago'), findsOneWidget);
+    expect(rendered!.values.single.step.unit, TimeAgoUnit.minute);
+    expect(rendered!.values.single.value, 1);
+    expect(resolves, 2);
+    scheduler.dispose();
+  });
+
+  testWidgets('renderer subscribes only while updates are requested', (
+    tester,
+  ) async {
+    var now = DateTime(2026);
+    final scheduler = TimeAgoScheduler(clock: () => now);
+    var live = false;
+    var resolves = 0;
+    late StateSetter updateHost;
+    await tester.pumpWidget(
+      TimeAgoProvider(
+        locale: en.locale,
+        scheduler: scheduler,
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: StatefulBuilder(
+            builder: (context, setState) {
+              updateHost = setState;
+              return TimeAgoRenderer(
+                timeAgo: (_) {
+                  resolves++;
+                  return TimeAgoResult(
+                    live ? 'live' : 'stable',
+                    live
+                        ? const TimeAgoUpdate.after(Duration(seconds: 1))
+                        : const TimeAgoUpdate.never(),
+                    const [],
+                  );
+                },
+                builder: (context, result) => Text(result.text),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('stable'), findsOneWidget);
+    expect(resolves, 1);
+    scheduler.refresh();
+    await tester.pump();
+    expect(resolves, 1);
+
+    updateHost(() => live = true);
+    await tester.pump();
+    expect(find.text('live'), findsOneWidget);
+    expect(resolves, 2);
+
+    now = now.add(const Duration(seconds: 1));
+    await tester.pump(const Duration(seconds: 1));
+    expect(resolves, 3);
+
+    updateHost(() => live = false);
+    await tester.pump();
+    expect(find.text('stable'), findsOneWidget);
+    expect(resolves, 4);
+    scheduler.refresh();
+    await tester.pump();
+    expect(resolves, 4);
+    scheduler.dispose();
+  });
+
   testWidgets('live text rebuilds at its exact step boundary', (tester) async {
     var now = DateTime(2026, 1, 1, 12);
     final scheduler = TimeAgoScheduler(clock: () => now);

@@ -62,13 +62,80 @@ void main() {
       );
 
       expect(single.text, '2 minutes ago');
+      expect(single.values.single.step.unit, TimeAgoUnit.minute);
+      expect(single.values.single.value, 2);
       expect(single.nextUpdate, isA<TimeAgoUpdateAfter>());
       expect(multi.text, '2 minutes and 3 seconds ago');
+      expect(
+        multi.values.map((value) => value.step.unit),
+        <TimeAgoUnit>[TimeAgoUnit.minute, TimeAgoUnit.second],
+      );
+      expect(
+        multi.values.map((value) => value.value),
+        <int>[2, 3],
+      );
       expect(multi.nextUpdate, isA<TimeAgoUpdateAfter>());
       expect(durationSingle.text, '2 minutes ago');
+      expect(durationSingle.values.single.step.unit, TimeAgoUnit.minute);
+      expect(durationSingle.values.single.value, 2);
       expect(durationSingle.nextUpdate, isA<TimeAgoUpdateNever>());
       expect(durationMulti.text, '2 minutes ago');
+      expect(durationMulti.values.single.step.unit, TimeAgoUnit.minute);
+      expect(durationMulti.values.single.value, 2);
       expect(durationMulti.nextUpdate, isA<TimeAgoUpdateNever>());
+    });
+
+    test('preserves the exact custom step before formatting', () {
+      final step = TimeAgoStep.custom(
+        minTime: Duration.zero,
+        formatter: (context) => 'custom ${context.amount}',
+      );
+      final result = durationAgoResult(
+        const Duration(seconds: 12),
+        locale: en.locale,
+        steps: <TimeAgoStep>[step],
+      );
+
+      expect(result.text, 'custom 12');
+      expect(result.values.single.step, same(step));
+      expect(result.values.single.value, 12);
+    });
+
+    test('represents current and cutoff results consistently', () {
+      const cutoffStep = TimeAgoStep.unit(
+        TimeAgoUnit.hour,
+        cutoffAmount: 2,
+      );
+      final singleCurrent = durationAgoResult(
+        Duration.zero,
+        locale: en.locale,
+      );
+      final multiCurrent = durationAgoMultiResult(
+        Duration.zero,
+        locale: en.locale,
+      );
+      final cutoff = durationAgoMultiResult(
+        const Duration(hours: 3),
+        locale: en.locale,
+        cutoffStep: cutoffStep,
+      );
+
+      expect(singleCurrent.values.single.step.unit, TimeAgoUnit.now);
+      expect(singleCurrent.values.single.value, 0);
+      expect(multiCurrent.values, isEmpty);
+      expect(cutoff.values.single.step, same(cutoffStep));
+      expect(cutoff.values.single.step.unit, TimeAgoUnit.hour);
+      expect(cutoff.values.single.value, 2);
+    });
+
+    test('constructs a result with explicit values', () {
+      const result = TimeAgoResult(
+        'static',
+        TimeAgoUpdate.never(),
+        [],
+      );
+
+      expect(result.values, isEmpty);
     });
 
     test('only result APIs resolve update callbacks', () {

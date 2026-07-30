@@ -49,6 +49,61 @@ enum TimeAgoUnit {
     TimeAgoUnit.minute,
     TimeAgoUnit.second,
   ];
+
+  /// Default unit transitions used by [upperBound].
+  ///
+  /// The main path mirrors [defaults]. Optional week and quarter units connect
+  /// to the next larger unit on that path.
+  static const defaultNextUnits = <TimeAgoUnit, TimeAgoUnit>{
+    TimeAgoUnit.second: TimeAgoUnit.minute,
+    TimeAgoUnit.minute: TimeAgoUnit.hour,
+    TimeAgoUnit.hour: TimeAgoUnit.day,
+    TimeAgoUnit.day: TimeAgoUnit.month,
+    TimeAgoUnit.week: TimeAgoUnit.month,
+    TimeAgoUnit.month: TimeAgoUnit.year,
+    TimeAgoUnit.quarter: TimeAgoUnit.year,
+  };
+
+  /// Returns the bound at which this unit reaches its next larger unit.
+  ///
+  /// For example, a minute has an upper bound of 60 when its next unit is an
+  /// hour. Calendar-scale bounds are rounded up, so a day has an upper bound
+  /// of 31 when its next unit is a month, or 7 when [nextUnits] overrides that
+  /// transition with [TimeAgoUnit.week].
+  ///
+  /// [nextUnits] is treated as a set of overrides for [defaultNextUnits].
+  /// [cutoff] takes precedence over unit conversion. Returns null when neither
+  /// a cutoff nor a next unit is available, as for [TimeAgoUnit.year].
+  int? upperBound({
+    Map<TimeAgoUnit, TimeAgoUnit>? nextUnits,
+    int? cutoff,
+  }) {
+    if (cutoff != null) {
+      if (cutoff <= 0) {
+        throw ArgumentError.value(
+          cutoff,
+          'cutoff',
+          'Cutoff must be greater than zero.',
+        );
+      }
+      return cutoff;
+    }
+
+    final nextUnit = nextUnits?[this] ?? defaultNextUnits[this];
+    if (nextUnit == null) {
+      return null;
+    }
+    if (this == TimeAgoUnit.now ||
+        nextUnit == TimeAgoUnit.now ||
+        nextUnit.microseconds <= microseconds) {
+      throw ArgumentError.value(
+        nextUnit,
+        'nextUnits[$name]',
+        'The next unit must be a larger numeric unit.',
+      );
+    }
+    return (nextUnit.microseconds + microseconds - 1) ~/ microseconds;
+  }
 }
 
 /// Numeric rounding for a single [TimeAgoStep].

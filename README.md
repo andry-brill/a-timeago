@@ -102,7 +102,13 @@ using any `TimeAgoSteps.twitter*` preset must call
 
 - `timeAgo()` and `durationAgo()` format one localized relative-time unit.
 - `timeAgoMulti()` and `durationAgoMulti()` format a localized list of units.
-- Matching `*Result()` variants return `TimeAgoResult` with `text` and `nextUpdate` for scheduling.
+- Matching `*Result()` variants return `TimeAgoResult` with localized `text`,
+  the pre-format `values`, and `nextUpdate` for scheduling.
+
+For example, `durationAgoMultiResult(const Duration(days: 400), ...)` exposes
+year, month, and day `TimeAgoStep.unit` records with values `1`, `1`, and `10`
+in `values`, independently of the selected locale and presentation format.
+Single-step results contain the exact selected step, including custom steps.
 
 ## Features
 
@@ -245,6 +251,22 @@ durationAgoMulti(
 `TimeAgoUnit` contains `now`, `second`, `minute`, `hour`, `day`, `week`,
 `month`, `quarter`, and `year`. `now` is only valid in single-unit step lists.
 Multi-unit lists must contain unique values ordered largest to smallest.
+
+Use `TimeAgoUnit.upperBound()` to obtain the value at which a unit reaches its
+next configured unit:
+
+```dart
+TimeAgoUnit.minute.upperBound(); // 60, before hour
+TimeAgoUnit.hour.upperBound(); // 24, before day
+TimeAgoUnit.day.upperBound(); // 31, before month
+TimeAgoUnit.day.upperBound(
+  nextUnits: const {TimeAgoUnit.day: TimeAgoUnit.week},
+); // 7
+TimeAgoUnit.year.upperBound(cutoff: 3); // 3
+```
+
+The optional `nextUnits` map overrides individual entries in
+`TimeAgoUnit.defaultNextUnits`. A positive `cutoff` takes precedence.
 
 `DateTime` decomposition uses calendar-aware years, quarters, and months with
 month-end clamping. `Duration` decomposition uses 360-day years, 90-day
@@ -453,6 +475,25 @@ TimeAgoBuilder(
   ),
 );
 ```
+
+For direct access to the complete live result, use `TimeAgoRenderer`. Its
+`timeAgo` callback resolves the current value, and its `builder` receives the
+corresponding `TimeAgoResult`:
+
+```dart
+TimeAgoRenderer(
+  timeAgo: (context) => context.timeAgoResult(message.sentAt),
+  builder: (context, result) => Semantics(
+    label: 'Sent ${result.text}',
+    child: Text(result.text),
+  ),
+);
+```
+
+`TimeAgoRenderer` owns subscription coordination. `TimeAgoBuilder` is the
+higher-level configuration adapter: it calls the matching `BuildContext`
+result extension and delegates scheduling to the renderer. Results with
+`TimeAgoUpdate.never()` do not retain a subscription.
 
 Widgets under one provider share one `TimeAgoScheduler`. It targets the
 earliest registered transition and rebuilds only due subscriptions. It also

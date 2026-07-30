@@ -122,16 +122,29 @@ String durationAgoMulti(
   ).text;
 }
 
-/// Formatted text together with the instruction for its next evaluation.
+/// A formatting step and its numeric value before locale-specific formatting
+/// is applied.
+typedef TimeAgoValue = ({TimeAgoStep step, int value});
+
+/// Formatted text, its underlying values, and the instruction for its next
+/// evaluation.
 ///
 /// Date-based result functions return a scheduling instruction for consumers
 /// such as live widgets. Duration-based results are stable and return
 /// [TimeAgoUpdate.never].
 class TimeAgoResult {
-  const TimeAgoResult(this.text, this.nextUpdate);
+  const TimeAgoResult(this.text, this.nextUpdate, this.values);
 
   final String text;
   final TimeAgoUpdate nextUpdate;
+
+  /// Values selected by the formatter before localization.
+  ///
+  /// Single-step and cutoff results contain one value. Multi-unit results
+  /// contain the displayed decomposition in largest-to-smallest order. A
+  /// result with no selected component, such as exact zero in multi-unit mode,
+  /// has an empty list.
+  final List<TimeAgoValue> values;
 }
 
 /// Formats one selected step and returns its text and next update deadline.
@@ -484,6 +497,7 @@ TimeAgoResult _formatSingle(
       basis.canUpdate
           ? withRequiredUpdate(TimeAgoUpdate.after(wait), nextCutoffUpdate)
           : const TimeAgoUpdate.never(),
+      const [],
     );
   }
 
@@ -496,9 +510,14 @@ TimeAgoResult _formatSingle(
     isCutoff: false,
   );
   final text = renderSelectedStep(step, context);
+  final values = <TimeAgoValue>[(step: step, value: amount)];
 
   if (!basis.canUpdate) {
-    return TimeAgoResult(text, const TimeAgoUpdate.never());
+    return TimeAgoResult(
+      text,
+      const TimeAgoUpdate.never(),
+      values,
+    );
   }
   final stepUpdate = timeUntilStepBoundary(
     duration,
@@ -517,6 +536,7 @@ TimeAgoResult _formatSingle(
     return TimeAgoResult(
       text,
       withRequiredUpdate(requestedUpdate, structuralUpdate),
+      values,
     );
   }
   if (step is! TimeAgoUnitStep) {
@@ -526,6 +546,7 @@ TimeAgoResult _formatSingle(
         const TimeAgoUpdate.unknown(),
         structuralUpdate,
       ),
+      values,
     );
   }
 
@@ -535,9 +556,17 @@ TimeAgoResult _formatSingle(
     if (structuralUpdate != null) structuralUpdate,
   ]);
   if (nextUpdate == null) {
-    return TimeAgoResult(text, const TimeAgoUpdate.never());
+    return TimeAgoResult(
+      text,
+      const TimeAgoUpdate.never(),
+      values,
+    );
   }
-  return TimeAgoResult(text, TimeAgoUpdate.after(nextUpdate));
+  return TimeAgoResult(
+    text,
+    TimeAgoUpdate.after(nextUpdate),
+    values,
+  );
 }
 
 List<Duration> _resolveThresholds(
@@ -644,15 +673,22 @@ TimeAgoResult _formatCutoff(
     isCutoff: true,
   );
   final text = renderSelectedStep(step, context);
+  final values = <TimeAgoValue>[
+    (step: step, value: step.cutoffAmount!),
+  ];
   if (!request.basis.canUpdate) {
-    return TimeAgoResult(text, const TimeAgoUpdate.never());
+    return TimeAgoResult(
+      text,
+      const TimeAgoUpdate.never(),
+      values,
+    );
   }
   final requestedUpdate = step.nextUpdate?.call(context) ??
       (step is! TimeAgoUnitStep
           ? const TimeAgoUpdate.unknown()
           : const TimeAgoUpdate.never());
   final update = withRequiredUpdate(requestedUpdate, cutoff.nextTransition);
-  return TimeAgoResult(text, update);
+  return TimeAgoResult(text, update, values);
 }
 
 TimeAgoStepContext _createStepContext(
@@ -700,8 +736,20 @@ TimeAgoResult _formatMulti(
     isFuture: request.isFuture,
     functions: request.resolvedFunctions,
   );
+  final values = decomposition.components
+      .map<TimeAgoValue>(
+        (component) => (
+          step: TimeAgoStep.unit(component.unit),
+          value: component.amount,
+        ),
+      )
+      .toList(growable: false);
   if (!basis.canUpdate) {
-    return TimeAgoResult(text, const TimeAgoUpdate.never());
+    return TimeAgoResult(
+      text,
+      const TimeAgoUpdate.never(),
+      values,
+    );
   }
   final nextUpdate = earliestDuration(<Duration>[
     if (decomposition.nextUpdate != null) decomposition.nextUpdate!,
@@ -712,6 +760,7 @@ TimeAgoResult _formatMulti(
     nextUpdate == null
         ? const TimeAgoUpdate.never()
         : TimeAgoUpdate.after(nextUpdate),
+    values,
   );
 }
 

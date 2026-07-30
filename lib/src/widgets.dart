@@ -7,14 +7,91 @@ import 'locale_functions.dart';
 import 'provider.dart';
 import 'scheduler.dart';
 import 'time_ago_step.dart';
+import 'time_ago_update.dart';
 
 typedef TimeAgoWidgetBuilder = Widget Function(
   BuildContext context,
   String value,
 );
 
-/// Rebuilds [builder] only when its formatted value may change.
-class TimeAgoBuilder extends StatefulWidget {
+typedef TimeAgoResultResolver = TimeAgoResult Function(BuildContext context);
+typedef TimeAgoResultBuilder = Widget Function(
+  BuildContext context,
+  TimeAgoResult result,
+);
+
+/// Evaluates a time-ago result and rebuilds at its requested update times.
+///
+/// The nearest [TimeAgoProvider] supplies the shared scheduler. Without a
+/// provider, the renderer owns a scheduler for its own subscription. A
+/// [TimeAgoUpdateNever] result disconnects the active subscription.
+class TimeAgoRenderer extends StatefulWidget {
+  const TimeAgoRenderer({
+    super.key,
+    required this.timeAgo,
+    required this.builder,
+  });
+
+  /// Produces the current result whenever the renderer is evaluated.
+  final TimeAgoResultResolver timeAgo;
+
+  /// Builds a widget from the complete formatted result.
+  final TimeAgoResultBuilder builder;
+
+  @override
+  State<TimeAgoRenderer> createState() => _TimeAgoRendererState();
+}
+
+class _TimeAgoRendererState extends State<TimeAgoRenderer> {
+  TimeAgoScheduler? _ownedScheduler;
+  TimeAgoScheduler? _scheduler;
+  TimeAgoSubscription? _subscription;
+
+  @override
+  Widget build(BuildContext context) {
+    final result = widget.timeAgo(context);
+    _schedule(context, result.nextUpdate);
+    return widget.builder(context, result);
+  }
+
+  @override
+  void dispose() {
+    _disconnect();
+    _ownedScheduler?.dispose();
+    super.dispose();
+  }
+
+  void _schedule(BuildContext context, TimeAgoUpdate update) {
+    if (update is TimeAgoUpdateNever) {
+      _disconnect();
+      return;
+    }
+    final nextScheduler = TimeAgoProvider.maybeOf(context)?.scheduler ??
+        (_ownedScheduler ??= TimeAgoScheduler());
+    if (!identical(_scheduler, nextScheduler)) {
+      _disconnect();
+      _scheduler = nextScheduler;
+      _subscription = nextScheduler.subscribe(_handleUpdate);
+    }
+    _subscription!.schedule(update);
+  }
+
+  void _disconnect() {
+    _subscription?.dispose();
+    _subscription = null;
+    _scheduler = null;
+  }
+
+  void _handleUpdate() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+}
+
+/// Resolves time-ago configuration and delegates live updates to
+/// [TimeAgoRenderer].
+class TimeAgoBuilder extends StatelessWidget {
   const TimeAgoBuilder({
     super.key,
     required DateTime this.time,
@@ -71,33 +148,9 @@ class TimeAgoBuilder extends StatefulWidget {
   final TimeAgoWidgetBuilder builder;
 
   @override
-  State<TimeAgoBuilder> createState() => _TimeAgoBuilderState();
-}
-
-class _TimeAgoBuilderState extends State<TimeAgoBuilder> {
-  TimeAgoScheduler? _ownedScheduler;
-  TimeAgoScheduler? _scheduler;
-  TimeAgoSubscription? _subscription;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _connectScheduler();
-  }
-
-  @override
-  void didUpdateWidget(TimeAgoBuilder oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.autoUpdate != oldWidget.autoUpdate) {
-      _connectScheduler();
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final provider = TimeAgoProvider.maybeOf(context);
-    final locale = widget.locale ?? provider?.locale;
-    if (locale == null) {
+    _validateModeArguments();
+    if (locale == null && TimeAgoProvider.maybeOf(context) == null) {
       throw FlutterError.fromParts(<DiagnosticsNode>[
         ErrorSummary('TimeAgoBuilder has no locale.'),
         ErrorDescription(
@@ -105,23 +158,20 @@ class _TimeAgoBuilderState extends State<TimeAgoBuilder> {
         ),
       ]);
     }
-    final format = widget.format ?? provider?.format ?? TimeAgoFormat.long;
-    final directional = widget.directional ??
-        provider?.directional ??
-        format != TimeAgoFormat.mini;
-    final future = widget.future ?? provider?.future ?? false;
-    _validateModeArguments();
-    final steps = widget.steps ?? provider?.steps;
-    final units = widget.units ?? provider?.multiUnits;
-    final cutoffStep = widget.cutoffStep ?? provider?.cutoffStep;
-    final fallbackFunctions = widget.fallbackFunctions ??
-        provider?.fallbackFunctions ??
-        englishTimeAgoLocaleFunctions;
+    final canUpdate = duration == null && autoUpdate && to == null;
+    return TimeAgoRenderer(
+      timeAgo: (context) {
+        final result = _resolveResult(context);
+        return canUpdate ? result : _withoutUpdates(result);
+      },
+      builder: (context, result) => builder(context, result.text),
+    );
+  }
 
-    final TimeAgoResult result;
-    if (widget.duration case final duration?) {
-      result = widget.multi
-          ? formatMultiDurationAgoResult(
+  TimeAgoResult _resolveResult(BuildContext context) {
+    if (duration case final duration?) {
+      return multi
+          ? context.durationAgoMultiResult(
               duration,
               locale: locale,
               format: format,
@@ -131,7 +181,7 @@ class _TimeAgoBuilderState extends State<TimeAgoBuilder> {
               cutoffStep: cutoffStep,
               fallbackFunctions: fallbackFunctions,
             )
-          : formatSingleDurationAgoResult(
+          : context.durationAgoResult(
               duration,
               locale: locale,
               format: format,
@@ -140,80 +190,58 @@ class _TimeAgoBuilderState extends State<TimeAgoBuilder> {
               steps: steps,
               cutoffStep: cutoffStep,
               fallbackFunctions: fallbackFunctions,
-            );
-    } else {
-      final to = widget.to ?? _scheduler?.now ?? DateTime.now();
-      final canUpdate = widget.autoUpdate && widget.to == null;
-      result = widget.multi
-          ? formatMultiTimeAgoResult(
-              widget.time!,
-              to: to,
-              locale: locale,
-              format: format,
-              directional: directional,
-              future: future,
-              units: units,
-              cutoffStep: cutoffStep,
-              fallbackFunctions: fallbackFunctions,
-              canUpdate: canUpdate,
-            )
-          : formatSingleTimeAgoResult(
-              widget.time!,
-              to: to,
-              locale: locale,
-              format: format,
-              directional: directional,
-              future: future,
-              steps: steps,
-              cutoffStep: cutoffStep,
-              fallbackFunctions: fallbackFunctions,
-              canUpdate: canUpdate,
             );
     }
-    _subscription?.schedule(result.nextUpdate);
-    return widget.builder(context, result.text);
+    return multi
+        ? context.timeAgoMultiResult(
+            time!,
+            to: to,
+            locale: locale,
+            format: format,
+            directional: directional,
+            future: future,
+            units: units,
+            cutoffStep: cutoffStep,
+            fallbackFunctions: fallbackFunctions,
+          )
+        : context.timeAgoResult(
+            time!,
+            to: to,
+            locale: locale,
+            format: format,
+            directional: directional,
+            future: future,
+            steps: steps,
+            cutoffStep: cutoffStep,
+            fallbackFunctions: fallbackFunctions,
+          );
   }
 
   void _validateModeArguments() {
-    if (widget.multi && widget.steps != null) {
+    if (multi && steps != null) {
       throw ArgumentError(
         'steps is only valid when multi is false. Use units to configure '
         'multi-unit decomposition.',
       );
     }
-    if (!widget.multi && widget.units != null) {
+    if (!multi && units != null) {
       throw ArgumentError(
         'units is only valid when multi is true. Use steps to configure '
         'single-unit thresholds.',
       );
     }
   }
+}
 
-  @override
-  void dispose() {
-    _subscription?.dispose();
-    _ownedScheduler?.dispose();
-    super.dispose();
+TimeAgoResult _withoutUpdates(TimeAgoResult result) {
+  if (result.nextUpdate is TimeAgoUpdateNever) {
+    return result;
   }
-
-  void _connectScheduler() {
-    final provider = TimeAgoProvider.maybeOf(context);
-    final nextScheduler = widget.autoUpdate
-        ? provider?.scheduler ?? (_ownedScheduler ??= TimeAgoScheduler())
-        : null;
-    if (identical(_scheduler, nextScheduler)) {
-      return;
-    }
-    _subscription?.dispose();
-    _scheduler = nextScheduler;
-    _subscription = nextScheduler?.subscribe(_handleUpdate);
-  }
-
-  void _handleUpdate() {
-    if (mounted) {
-      setState(() {});
-    }
-  }
+  return TimeAgoResult(
+    result.text,
+    const TimeAgoUpdate.never(),
+    result.values,
+  );
 }
 
 /// A [Text] widget backed by [TimeAgoBuilder].
