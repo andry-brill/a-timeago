@@ -9,6 +9,13 @@ const LocaleConfig locale = LocaleConfig(
     narrow: _narrow,
     mini: null,
   ),
+  calendar: TimeAgoCalendarLabels(
+    yesterday: 'inanahi',
+    today: 'i tēnei rā',
+    tomorrow: 'āpōpō',
+    dateTime: '{1} i {0}',
+    relativeDateTime: '{1} i {0}',
+  ),
   now: TimeAgoNowLabels(
     past: '-1 hēkona i mua',
     current: 'ināianei',

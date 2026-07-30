@@ -5,6 +5,13 @@ const LocaleConfig locale = LocaleConfig(
   locale: Locale('nb'),
   formats: TimeAgoFormatSet(long: _long, short: _short, narrow: _narrow),
   // Manually completed because JavaScript's nb locale has no `now` supplement.
+  calendar: TimeAgoCalendarLabels(
+    yesterday: 'i går',
+    today: 'i dag',
+    tomorrow: 'i morgen',
+    dateTime: '{1} kl. {0}',
+    relativeDateTime: '{1} kl. {0}',
+  ),
   now: TimeAgoNowLabels(past: 'nå', current: 'nå', future: 'nå'),
   functions: IntlTimeAgoLocaleFunctions('nb'),
 );

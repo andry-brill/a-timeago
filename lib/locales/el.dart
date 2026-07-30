@@ -9,6 +9,13 @@ const LocaleConfig locale = LocaleConfig(
     narrow: _narrow,
     mini: _mini,
   ),
+  calendar: TimeAgoCalendarLabels(
+    yesterday: 'χθες',
+    today: 'σήμερα',
+    tomorrow: 'αύριο',
+    dateTime: '{1} στις {0}',
+    relativeDateTime: '{1} - {0}',
+  ),
   now: TimeAgoNowLabels(
     past: 'πριν από 1 δευτερόλεπτο',
     current: 'τώρα',

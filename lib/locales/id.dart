@@ -9,6 +9,13 @@ const LocaleConfig locale = LocaleConfig(
     narrow: _narrow,
     mini: _mini,
   ),
+  calendar: TimeAgoCalendarLabels(
+    yesterday: 'kemarin',
+    today: 'hari ini',
+    tomorrow: 'besok',
+    dateTime: '{1} pukul {0}',
+    relativeDateTime: '{1} pukul {0}',
+  ),
   now: TimeAgoNowLabels(
     past: '1 detik yang lalu',
     current: 'sekarang',

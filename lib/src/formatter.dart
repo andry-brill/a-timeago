@@ -1,10 +1,10 @@
+import '../steps/basic.dart';
 import 'enums.dart';
 import 'formatting/formatter_validation.dart';
 import 'formatting/step_arithmetic.dart';
 import 'formatting/time_ago_rendering.dart';
 import 'locale_config.dart';
 import 'locale_functions.dart';
-import 'steps.dart';
 import 'temporal/cutoff_resolution.dart';
 import 'temporal/multi_decomposition.dart';
 import 'temporal/temporal_basis.dart';

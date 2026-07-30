@@ -8,6 +8,13 @@ const LocaleConfig locale = LocaleConfig(
     short: _short,
     mini: null,
   ),
+  calendar: TimeAgoCalendarLabels(
+    yesterday: 'včera',
+    today: 'dnes',
+    tomorrow: 'zítra',
+    dateTime: '{1} v {0}',
+    relativeDateTime: '{1} {0}',
+  ),
   now: TimeAgoNowLabels(
     past: 'před 1 sekundou',
     current: 'nyní',

@@ -9,6 +9,13 @@ const LocaleConfig locale = LocaleConfig(
     narrow: _narrow,
     mini: null,
   ),
+  calendar: TimeAgoCalendarLabels(
+    yesterday: 'ትማሊ',
+    today: 'ሎሚ',
+    tomorrow: 'ጽባሕ',
+    dateTime: '{1} ሰዓት {0}',
+    relativeDateTime: '{1} {0}',
+  ),
   now: TimeAgoNowLabels(
     past: 'ቅድሚ 1 ካልኢት',
     current: 'ሕጂ',

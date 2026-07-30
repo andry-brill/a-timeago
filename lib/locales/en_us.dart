@@ -4,6 +4,13 @@ import 'package:flutter/widgets.dart';
 
 final LocaleConfig locale = en.locale.copyWith(
   locale: const Locale.fromSubtags(languageCode: 'en', countryCode: 'US'),
+  calendar: const TimeAgoCalendarLabels(
+    yesterday: 'yesterday',
+    today: 'today',
+    tomorrow: 'tomorrow',
+    dateTime: '{1} at {0}',
+    relativeDateTime: '{1} at {0}',
+  ),
   functions: const IntlTimeAgoLocaleFunctions('en_US'),
 );
 

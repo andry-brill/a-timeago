@@ -2,6 +2,8 @@ import 'package:any_timeago/any_timeago.dart';
 import 'package:any_timeago/locales/de.dart' as de;
 import 'package:any_timeago/locales/en.dart' as en;
 import 'package:any_timeago/locales/en_us.dart' as en_us;
+import 'package:any_timeago/steps/intl_calendar.dart' as calendar;
+import 'package:any_timeago/steps/intl_twitter.dart' as twitter;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 
@@ -18,6 +20,14 @@ void main() {
     expect(
       customized.formatYearMonthDay(DateTime(2026, 7, 20)),
       '20 Jul 2026',
+    );
+    expect(customized.formatTime(DateTime(2026, 7, 20, 9, 5)), '09:05');
+    expect(
+      customized.formatTime(
+        DateTime(2026, 7, 20, 9, 5, 7),
+        includeSeconds: true,
+      ),
+      '09:05:07',
     );
   });
 
@@ -45,11 +55,22 @@ void main() {
       'Jan 1, 2001',
     );
     expect(
+      enUsTimeAgoLocaleFunctions.formatTime(DateTime(2001, 1, 1, 9, 5)),
+      '9:05 AM',
+    );
+    expect(
+      enUsTimeAgoLocaleFunctions.formatTime(
+        DateTime(2001, 1, 1, 21, 5, 7),
+        includeSeconds: true,
+      ),
+      '9:05:07 PM',
+    );
+    expect(
       timeAgo(
         date,
         to: DateTime(2001, 1, 5),
         locale: en_us.locale,
-        steps: TimeAgoSteps.twitter,
+        steps: twitter.steps,
         fallbackFunctions: enUsTimeAgoLocaleFunctions,
       ),
       'Jan 1',
@@ -73,7 +94,7 @@ void main() {
         date,
         to: DateTime(2026, 7, 24),
         locale: de.locale,
-        steps: TimeAgoSteps.twitter,
+        steps: twitter.steps,
         fallbackFunctions: fallback,
       ),
       'fallback month-day',
@@ -83,7 +104,7 @@ void main() {
         DateTime(2025, 12, 20),
         to: DateTime(2026, 7, 24),
         locale: de.locale,
-        steps: TimeAgoSteps.twitter,
+        steps: twitter.steps,
         fallbackFunctions: fallback,
       ),
       'fallback full date',
@@ -102,11 +123,22 @@ void main() {
       'Jul 20, 2026',
     );
     expect(
+      en.locale.functions.formatTime(DateTime(2026, 7, 20, 9, 5, 7)),
+      DateFormat.jm('en_GB').format(DateTime(2026, 7, 20, 9, 5, 7)),
+    );
+    expect(
+      en_us.locale.functions.formatTime(
+        DateTime(2026, 7, 20, 9, 5, 7),
+        includeSeconds: true,
+      ),
+      DateFormat.jms('en_US').format(DateTime(2026, 7, 20, 9, 5, 7)),
+    );
+    expect(
       timeAgo(
         date,
         to: DateTime(2026, 7, 24),
         locale: de.locale,
-        steps: TimeAgoSteps.twitter,
+        steps: twitter.steps,
         fallbackFunctions: fallback,
       ),
       DateFormat.MMMd('de').format(date),
@@ -116,7 +148,7 @@ void main() {
         DateTime(2025, 12, 20),
         to: DateTime(2026, 7, 24),
         locale: de.locale,
-        steps: TimeAgoSteps.twitter,
+        steps: twitter.steps,
         fallbackFunctions: fallback,
       ),
       DateFormat.yMMMd('de').format(DateTime(2025, 12, 20)),
@@ -130,6 +162,7 @@ void main() {
     const fallback = _TestEnTimeAgoLocaleFunctions(
       numberPrefix: 'N',
       monthDayValue: 'fallback date',
+      timeValue: 'fallback time',
     );
 
     expect(
@@ -145,7 +178,7 @@ void main() {
         DateTime(2026, 7, 20),
         to: DateTime(2026, 7, 24),
         locale: locale,
-        steps: TimeAgoSteps.twitter,
+        steps: twitter.steps,
         fallbackFunctions: fallback,
       ),
       'fallback date',
@@ -155,9 +188,19 @@ void main() {
         DateTime(2026, 7, 20),
         to: DateTime(2026, 7, 24),
         locale: locale,
-        steps: TimeAgoSteps.twitter,
+        steps: twitter.steps,
       ),
       '20 Jul',
+    );
+    expect(
+      timeAgo(
+        DateTime(2026, 7, 24, 9, 5),
+        to: DateTime(2026, 7, 24, 12),
+        locale: locale,
+        steps: calendar.steps,
+        fallbackFunctions: fallback,
+      ),
+      'today at fallback time',
     );
     expect(
       () => locale.functions.formatMonthDay(DateTime(2026, 7, 20)),
@@ -185,7 +228,7 @@ void main() {
         DateTime(2026, 7, 20),
         to: DateTime(2026, 7, 24),
         locale: locale,
-        steps: TimeAgoSteps.twitter,
+        steps: twitter.steps,
         fallbackFunctions: fallback,
       ),
       'primary month-day',
@@ -238,11 +281,13 @@ final class _TestEnTimeAgoLocaleFunctions extends EnTimeAgoLocaleFunctions {
     this.numberPrefix,
     this.monthDayValue,
     this.yearMonthDayValue,
+    this.timeValue,
   });
 
   final String? numberPrefix;
   final String? monthDayValue;
   final String? yearMonthDayValue;
+  final String? timeValue;
 
   @override
   String formatNumber(num value) {
@@ -259,6 +304,14 @@ final class _TestEnTimeAgoLocaleFunctions extends EnTimeAgoLocaleFunctions {
   @override
   String formatYearMonthDay(DateTime value) {
     return yearMonthDayValue ?? super.formatYearMonthDay(value);
+  }
+
+  @override
+  String formatTime(
+    DateTime value, {
+    bool includeSeconds = false,
+  }) {
+    return timeValue ?? super.formatTime(value, includeSeconds: includeSeconds);
   }
 }
 

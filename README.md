@@ -38,8 +38,13 @@ required arguments.
       minute.
   - From-minute-now: `timeAgo(..., steps: TimeAgoSteps.fromMinuteNow)`
     - `just now` — Uses the localized now label below the first rounded minute.
-  - Twitter: `timeAgo(..., steps: TimeAgoSteps.twitter)`
+  - Twitter: `timeAgo(..., steps: twitter.steps)`
     - `20 May 2020` — Switches older values from relative units to a localized calendar date.
+  - Calendar: `timeAgo(..., steps: calendar.steps)`
+    - `heute um 14:35` — Uses now through one minute, relative minutes through
+      30 minutes, then fully localized named-day or calendar date-time output.
+  - Calendar with seconds: `timeAgo(..., steps: calendar.stepsWithSeconds)`
+    - `gestern um 14:35:42`
 - Per-step rounding
   - Floor: `timeAgo(..., steps: [TimeAgoStep.unit(..., rounding: TimeAgoRounding.floor)])`
     - `1 minute ago` — Counts only completed minutes in a 1-minute,
@@ -92,9 +97,17 @@ import 'package:any_timeago/locales/it.dart' as it;
 import 'package:any_timeago/locales/nb.dart' as nb;
 ```
 
-> NB! Bundled locales use `package:intl` for localized number, plural, and date
+Intl-backed step presets are also opt-in:
+
+```dart
+import 'package:any_timeago/steps/intl_twitter.dart' as twitter;
+import 'package:any_timeago/steps/intl_calendar.dart' as calendar;
+```
+
+> NB! Bundled locales use `package:intl` for localized number, plural, date,
+and time
 operations. Number and plural data are available immediately. Applications
-using any `TimeAgoSteps.twitter*` preset must call
+using the `intl_twitter` or `intl_calendar` presets must call
 `initializeTimeAgoDateFormatting()` before `runApp()` as described in
 [Intl date initialization](#intl-date-initialization).
 
@@ -148,27 +161,70 @@ to override individual labels or locale operations.
 
 ### Step presets
 
-Built-in step lists control which unit or custom formatter is selected at each
-threshold:
+Step presets are organized under `steps/`. Only `steps/basic.dart` is exported
+by `package:any_timeago/any_timeago.dart`; other presets must be imported
+explicitly as `package:any_timeago/steps/<preset>.dart`.
 
-- `TimeAgoSteps.precise`: second through year; zero is `0 seconds`
-- `TimeAgoSteps.preciseNow`: `now`, then `precise`
-- `TimeAgoSteps.fromMinute`: minute through year; zero is `0 minutes`
-- `TimeAgoSteps.fromMinuteNow`: `now`, then `fromMinute`; the default
-- `TimeAgoSteps.approximate`: fuzzy moment and rounded-increment thresholds
-- `TimeAgoSteps.twitter`: seconds/minutes/hours, then localized dates
-- `TimeAgoSteps.twitterNow`
-- `TimeAgoSteps.twitterFromMinute`
-- `TimeAgoSteps.twitterFromMinuteNow`
-- `TimeAgoSteps.twitterFirstMinute`: empty until one minute
+The progressions below show representative English
+`TimeAgoFormat.mini` output. They summarize the output stages, not every exact
+selection threshold.
+
+#### Basic presets
+
+No additional import is needed.
+
+- `TimeAgoSteps.precise` — `0s` → `1m` → `1h` → `1d` → `1wk` → `1mo` → `1yr`
+  - Uses every unit from seconds through years.
+- `TimeAgoSteps.preciseNow` — `now` → `1s` → `1m` → … → `1yr`
+  - Adds a localized `now` step before `precise`.
+- `TimeAgoSteps.fromMinute` — `0m` → `1m` → `1h` → … → `1yr`
+  - Starts at minutes and renders zero as `0 minutes`.
+- `TimeAgoSteps.fromMinuteNow` — `now` → `1m` → `1h` → … → `1yr`
+  - Adds `now` before `fromMinute`; this is the default preset.
+- `TimeAgoSteps.approximate` — `now` → `1s` → `1m` → `5m` → `30m` →
+  `1h` → `1d` → `1wk` → `1mo` → `1yr`
+  - Uses fuzzy thresholds and rounded minute increments.
+
+#### Calendar presets
+
+```dart
+import 'package:any_timeago/steps/intl_calendar.dart' as calendar;
+```
+
+- `calendar.steps` — `now` → `1m` → `30m` → `today at 14:35` →
+  `yesterday at 14:35` → `20 Jul at 14:35` → `20 Jul 2025 at 14:35`
+  - Uses `now` through one minute and relative minutes through 30 minutes.
+    Older values use localized yesterday, today, tomorrow, or calendar dates
+    combined with a localized clock.
+- `calendar.stepsWithSeconds` — `now` → `1m` → `30m` →
+  `today at 14:35:42` → … → `20 Jul 2025 at 14:35:42`
+  - Uses the same stages while retaining seconds in calendar timestamps.
+
+#### Twitter presets
+
+```dart
+import 'package:any_timeago/steps/intl_twitter.dart' as twitter;
+```
+
+- `twitter.steps` — `0s` → `1m` → `1h` → `20 Jul` → `20 Jul 2025`
+- `twitter.stepsNow` — `now` → `1s` → `1m` → `1h` → `20 Jul` →
+  `20 Jul 2025`
+- `twitter.stepsFromMinute` — `0m` → `1m` → `1h` → `20 Jul` →
+  `20 Jul 2025`
+- `twitter.stepsFromMinuteNow` — `now` → `1m` → `1h` → `20 Jul` →
+  `20 Jul 2025`
+- `twitter.stepsFirstMinute` — empty → `1m` → `1h` → `20 Jul` →
+  `20 Jul 2025`
+
+The opt-in `intl_twitter` and `intl_calendar` presets require
+[Intl date initialization](#intl-date-initialization). Every bundled
+`LocaleConfig.calendar` supplies CLDR 48.1 yesterday, today, and tomorrow
+labels plus separate fixed-date and relative-date clock-combination patterns.
 
 A step can define `minTime`, `minTimeResolver`, `rounding`, `granularity`,
 `cutoffAmount`, and `nextUpdate`. Custom step variants can also provide their
 own formatting. `TimeAgoStep` is sealed; its factories create a
 `TimeAgoUnitStep`, `TimeAgoCustomStep`, or `TimeAgoCustomUnitStep`.
-
-The `TimeAgoSteps.twitter*` presets switch older values to localized calendar
-dates and require [Intl date initialization](#intl-date-initialization).
 
 ### Per-step rounding
 
@@ -529,7 +585,7 @@ amount and returns a plural category plus a pattern for the already-localized
 number. Its default result is
 `(plural: TimeAgoPluralCategory.many, pattern: '{0}+')`.
 
-Plural resolution plus number and date formatting are grouped under
+Plural resolution plus number, date, and clock formatting are grouped under
 `LocaleConfig.functions`. Implement `TimeAgoLocaleFunctions`, or extend the
 non-Intl English implementation to override selected behavior:
 
@@ -546,6 +602,18 @@ final locale = en.locale.copyWith(
 );
 ```
 
+Named calendar days and the patterns that combine dates with clocks live in
+`LocaleConfig.calendar`. They can be customized independently:
+
+```dart
+final locale = en.locale.copyWith(
+  calendar: en.locale.calendar.copyWith(
+    today: 'this day',
+    relativeDateTime: '{1} @ {0}', // {1} = date, {0} = clock
+  ),
+);
+```
+
 Every bundled locale uses `IntlTimeAgoLocaleFunctions`. If an Intl operation
 is unavailable, only that operation uses `fallbackFunctions`; the selected
 locale's translated labels remain in use. The default fallback is the const,
@@ -558,8 +626,9 @@ provider. Nested providers inherit their parent's fallback when omitted.
 
 ## Intl date initialization
 
-Intl number and plural data are immediately available, but localized date
-symbols must be initialized when Twitter-style localized dates are needed:
+Intl number and plural data are immediately available, but localized date and
+time symbols must be initialized when Twitter-style or calendar-style output
+is needed:
 
 ```dart
 import 'package:any_timeago/any_timeago.dart';
@@ -615,3 +684,34 @@ Supported locales: `af`, `ak`, `am`, `ar`, `ar_ae`, `as`, `ast`, `az`,
 `uz_cyrl`, `vec`, `vi`, `wae`, `wo`, `xh`, `xnr`, `yi`, `yo`,
 `yo_bj`, `yrl`, `yue`, `yue_hans`, `zh`, `zh_hans_hk`, `zh_hant`,
 `zh_hant_hk`, `zu`.
+
+## Migrations
+
+### Migrating to 2.0.0
+
+Twitter presets are now opt-in. Import
+`package:any_timeago/steps/intl_twitter.dart` as `twitter` and update these
+references:
+
+| Before | 2.0.0 |
+| --- | --- |
+| `TimeAgoSteps.twitter` | `twitter.steps` |
+| `TimeAgoSteps.twitterNow` | `twitter.stepsNow` |
+| `TimeAgoSteps.twitterFromMinute` | `twitter.stepsFromMinute` |
+| `TimeAgoSteps.twitterFromMinuteNow` | `twitter.stepsFromMinuteNow` |
+| `TimeAgoSteps.twitterFirstMinute` | `twitter.stepsFirstMinute` |
+
+Custom `LocaleConfig` values must now provide `calendar`:
+
+```dart
+calendar: const TimeAgoCalendarLabels(
+  yesterday: 'Yesterday',
+  today: 'Today',
+  tomorrow: 'Tomorrow',
+  dateTime: '{1} at {0}',
+),
+```
+
+Classes that `implement TimeAgoLocaleFunctions` must also implement
+`formatTime()`. Classes that extend a bundled locale-functions implementation
+inherit its clock formatting.

@@ -9,6 +9,13 @@ const LocaleConfig locale = LocaleConfig(
     narrow: _narrow,
     mini: _mini,
   ),
+  calendar: TimeAgoCalendarLabels(
+    yesterday: 'ieri',
+    today: 'azi',
+    tomorrow: 'mâine',
+    dateTime: '{1} la {0}',
+    relativeDateTime: '{1} la {0}',
+  ),
   now: TimeAgoNowLabels(
     past: 'acum 1 secundă',
     current: 'acum',

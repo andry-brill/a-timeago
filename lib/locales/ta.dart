@@ -9,6 +9,13 @@ const LocaleConfig locale = LocaleConfig(
     narrow: _narrow,
     mini: null,
   ),
+  calendar: TimeAgoCalendarLabels(
+    yesterday: 'நேற்று',
+    today: 'இன்று',
+    tomorrow: 'நாளை',
+    dateTime: '{1} அன்று {0}',
+    relativeDateTime: '{1}, {0}',
+  ),
   now: TimeAgoNowLabels(
     past: '1 விநாடிக்கு முன்',
     current: 'இப்போது',

@@ -349,6 +349,58 @@ class TimeAgoNowLabels {
   }
 }
 
+/// Localized named days and date-time combination patterns.
+///
+/// Combination patterns use the Unicode CLDR placeholder convention:
+/// `{1}` is the date or named day and `{0}` is the localized clock.
+class TimeAgoCalendarLabels {
+  const TimeAgoCalendarLabels({
+    required this.yesterday,
+    required this.today,
+    required this.tomorrow,
+    required this.dateTime,
+    String? relativeDateTime,
+  }) : relativeDateTime = relativeDateTime ?? dateTime;
+
+  final String yesterday;
+  final String today;
+  final String tomorrow;
+
+  /// Combines a fixed calendar date with a clock.
+  final String dateTime;
+
+  /// Combines a named relative day with a clock.
+  ///
+  /// Falls back to [dateTime] when omitted.
+  final String relativeDateTime;
+
+  TimeAgoCalendarLabels copyWith({
+    String? yesterday,
+    String? today,
+    String? tomorrow,
+    String? dateTime,
+    String? relativeDateTime,
+  }) {
+    return TimeAgoCalendarLabels(
+      yesterday: yesterday ?? this.yesterday,
+      today: today ?? this.today,
+      tomorrow: tomorrow ?? this.tomorrow,
+      dateTime: dateTime ?? this.dateTime,
+      relativeDateTime: relativeDateTime ?? this.relativeDateTime,
+    );
+  }
+
+  /// Combines [date] and [time] with the fixed or [relative] pattern.
+  String combineDateAndTime(
+    String date,
+    String time, {
+    bool relative = false,
+  }) {
+    final pattern = relative ? relativeDateTime : dateTime;
+    return pattern.replaceAll('{1}', date).replaceAll('{0}', time);
+  }
+}
+
 /// All labels for one [TimeAgoFormat].
 class TimeAgoFormatLabels {
   const TimeAgoFormatLabels({
@@ -447,12 +499,14 @@ class LocaleConfig {
     required this.locale,
     required this.formats,
     required this.now,
+    required this.calendar,
     required this.functions,
   });
 
   final Locale locale;
   final TimeAgoFormatSet<TimeAgoFormatLabels> formats;
   final TimeAgoNowLabels now;
+  final TimeAgoCalendarLabels calendar;
   final TimeAgoLocaleFunctions functions;
 
   TimeAgoFormatLabels get long => formats.long;
@@ -470,6 +524,7 @@ class LocaleConfig {
     bool clearNarrow = false,
     bool clearMini = false,
     TimeAgoNowLabels? now,
+    TimeAgoCalendarLabels? calendar,
     TimeAgoLocaleFunctions? functions,
   }) {
     return LocaleConfig(
@@ -482,6 +537,7 @@ class LocaleConfig {
             mini: clearMini ? null : mini ?? this.mini,
           ),
       now: now ?? this.now,
+      calendar: calendar ?? this.calendar,
       functions: functions ?? this.functions,
     );
   }

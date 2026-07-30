@@ -8,6 +8,13 @@ const LocaleConfig locale = LocaleConfig(
     short: _short,
     mini: null,
   ),
+  calendar: TimeAgoCalendarLabels(
+    yesterday: 'ඊයේ',
+    today: 'අද',
+    tomorrow: 'හෙට',
+    dateTime: '{1} දින {0}',
+    relativeDateTime: '{1} දින {0}',
+  ),
   now: TimeAgoNowLabels(
     past: 'තත්පර 1කට පෙර',
     current: 'දැන්',

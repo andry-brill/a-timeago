@@ -4,6 +4,7 @@ import 'package:any_timeago/locales/es.dart' as es;
 import 'package:any_timeago/locales/fr.dart' as fr;
 import 'package:any_timeago/locales/pl.dart' as pl;
 import 'package:any_timeago/locales/sv.dart' as sv;
+import 'package:any_timeago/steps/intl_twitter.dart' as twitter;
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
@@ -186,13 +187,13 @@ class _ExamplePage extends StatelessWidget {
             ),
           ),
           _ShowcaseRow(
-            shortcut: 'timeAgo(..., steps: TimeAgoSteps.twitter)',
+            shortcut: 'timeAgo(..., steps: twitter.steps)',
             explanation:
                 'Switches older values from relative units to a localized '
                 'calendar date.',
             result: TimeAgoText(
               time: DateTime(2020, 5, 20),
-              steps: TimeAgoSteps.twitter,
+              steps: twitter.steps,
             ),
           ),
         ],

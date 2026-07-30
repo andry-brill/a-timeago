@@ -8,6 +8,13 @@ const LocaleConfig locale = LocaleConfig(
     short: _short,
     mini: null,
   ),
+  calendar: TimeAgoCalendarLabels(
+    yesterday: 'учора',
+    today: 'сёння',
+    tomorrow: 'заўтра',
+    dateTime: '{1} у {0}',
+    relativeDateTime: '{1}, {0}',
+  ),
   now: TimeAgoNowLabels(
     past: '1 секунду таму',
     current: 'цяпер',

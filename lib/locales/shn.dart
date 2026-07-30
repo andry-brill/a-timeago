@@ -9,6 +9,13 @@ const LocaleConfig locale = LocaleConfig(
     narrow: _narrow,
     mini: null,
   ),
+  calendar: TimeAgoCalendarLabels(
+    yesterday: 'မိူဝ်ႈဝႃး',
+    today: 'မိူဝ်ႈၼႆႉ',
+    tomorrow: 'မိူဝ်ႈၽုၵ်ႈ',
+    dateTime: '{1} {0}',
+    relativeDateTime: '{1} {0}',
+  ),
   now: TimeAgoNowLabels(
     past: '1 ၸႅၵ်ၵၢၼ်ႉပူၼ်ႉမႃး',
     current: 'ယၢမ်းလဵဝ်',

@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 import 'enums.dart';
 
-/// Plural, number, and date operations used by `LocaleConfig`.
+/// Plural, number, date, and time operations used by `LocaleConfig`.
 abstract class TimeAgoLocaleFunctions {
   const TimeAgoLocaleFunctions();
 
@@ -13,6 +13,22 @@ abstract class TimeAgoLocaleFunctions {
   String formatMonthDay(DateTime value);
 
   String formatYearMonthDay(DateTime value);
+
+  /// Formats the clock portion of [value].
+  ///
+  /// The default is a zero-padded 24-hour clock. Locale implementations can
+  /// override this to use their preferred hour cycle and day-period labels.
+  /// The concrete default lets subclasses inherit clock formatting when they
+  /// do not need locale-specific behavior.
+  String formatTime(
+    DateTime value, {
+    bool includeSeconds = false,
+  }) {
+    final hour = value.hour.toString().padLeft(2, '0');
+    final minute = value.minute.toString().padLeft(2, '0');
+    final second = value.second.toString().padLeft(2, '0');
+    return includeSeconds ? '$hour:$minute:$second' : '$hour:$minute';
+  }
 }
 
 /// Const, non-Intl British English locale operations.
@@ -75,6 +91,18 @@ class EnUsTimeAgoLocaleFunctions extends EnTimeAgoLocaleFunctions {
   @override
   String formatYearMonthDay(DateTime value) {
     return '${formatMonthDay(value)}, ${value.year}';
+  }
+
+  @override
+  String formatTime(
+    DateTime value, {
+    bool includeSeconds = false,
+  }) {
+    final hour = value.hour % 12 == 0 ? 12 : value.hour % 12;
+    final minute = value.minute.toString().padLeft(2, '0');
+    final second = value.second.toString().padLeft(2, '0');
+    final clock = includeSeconds ? '$hour:$minute:$second' : '$hour:$minute';
+    return '$clock ${value.hour < 12 ? 'AM' : 'PM'}';
   }
 }
 
@@ -146,11 +174,26 @@ final class _FallbackTimeAgoLocaleFunctions extends TimeAgoLocaleFunctions {
   String formatYearMonthDay(DateTime value) {
     return _resolve((functions) => functions.formatYearMonthDay(value));
   }
+
+  @override
+  String formatTime(
+    DateTime value, {
+    bool includeSeconds = false,
+  }) {
+    return _resolve(
+      (functions) => functions.formatTime(
+        value,
+        includeSeconds: includeSeconds,
+      ),
+    );
+  }
 }
 
 final _numberFormats = <String, NumberFormat>{};
 final _monthDayFormats = <String, DateFormat>{};
 final _yearMonthDayFormats = <String, DateFormat>{};
+final _timeFormats = <String, DateFormat>{};
+final _timeWithSecondsFormats = <String, DateFormat>{};
 
 /// Locale operations backed by `package:intl`.
 ///
@@ -165,6 +208,8 @@ final class IntlTimeAgoLocaleFunctions extends TimeAgoLocaleFunctions {
     _numberFormats.clear();
     _monthDayFormats.clear();
     _yearMonthDayFormats.clear();
+    _timeFormats.clear();
+    _timeWithSecondsFormats.clear();
   }
 
   @override
@@ -228,6 +273,23 @@ final class IntlTimeAgoLocaleFunctions extends TimeAgoLocaleFunctions {
       () {
         final formatter =
             _yearMonthDayFormats[localeName] ??= DateFormat.yMMMd(localeName);
+        return formatter.format(value);
+      },
+    );
+  }
+
+  @override
+  String formatTime(
+    DateTime value, {
+    bool includeSeconds = false,
+  }) {
+    return _runIntl<String>(
+      localeName,
+      'time formatting',
+      () {
+        final formatter = includeSeconds
+            ? _timeWithSecondsFormats[localeName] ??= DateFormat.jms(localeName)
+            : _timeFormats[localeName] ??= DateFormat.jm(localeName);
         return formatter.format(value);
       },
     );

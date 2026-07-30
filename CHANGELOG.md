@@ -1,4 +1,27 @@
 
+## 2.0.0
+  * Add opt-in `steps/intl_calendar.dart` presets for fully localized
+    minute-to-calendar feed timestamps, with and without seconds.
+  * Add CLDR 48.1 yesterday, today, and tomorrow labels plus fixed and relative
+    date-time combination patterns to every bundled locale.
+  * Add fallback-aware localized clock formatting through
+    `TimeAgoLocaleFunctions.formatTime()`.
+  * Split step presets into `steps/basic.dart`, `steps/intl_twitter.dart`, and
+    `steps/intl_calendar.dart`. The main library exports only the basic
+    presets.
+  * **Breaking:** `LocaleConfig` construction now requires
+    `TimeAgoCalendarLabels` through the `calendar` argument.
+  * **Breaking:** Code that implements `TimeAgoLocaleFunctions` must implement
+    `formatTime()`. Code that extends a bundled implementation inherits its
+    default.
+  * **Breaking:** Move the Twitter presets out of `TimeAgoSteps`. Import
+    `steps/intl_twitter.dart` with a prefix and migrate:
+    * `TimeAgoSteps.twitter` to `twitter.steps`
+    * `TimeAgoSteps.twitterNow` to `twitter.stepsNow`
+    * `TimeAgoSteps.twitterFromMinute` to `twitter.stepsFromMinute`
+    * `TimeAgoSteps.twitterFromMinuteNow` to `twitter.stepsFromMinuteNow`
+    * `TimeAgoSteps.twitterFirstMinute` to `twitter.stepsFirstMinute`
+
 ## 1.1.0
   * Add structured pre-format values to `TimeAgoResult` through the new
     `TimeAgoValue` record type.

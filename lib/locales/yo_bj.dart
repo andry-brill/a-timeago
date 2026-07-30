@@ -8,6 +8,13 @@ const LocaleConfig locale = LocaleConfig(
     short: _short,
     mini: null,
   ),
+  calendar: TimeAgoCalendarLabels(
+    yesterday: 'Àná',
+    today: 'Òní',
+    tomorrow: 'Ɔ̀la',
+    dateTime: '{1} ní {0}',
+    relativeDateTime: '{1} ní {0}',
+  ),
   now: TimeAgoNowLabels(
     past: '-1 s',
     current: 'nísinsìyí',

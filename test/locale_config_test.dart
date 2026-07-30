@@ -60,6 +60,37 @@ void main() {
       expect(patterns.wrap('two days', isPast: false), 'after two days');
     });
 
+    test('calendar labels combine fixed and relative dates with clocks', () {
+      const labels = TimeAgoCalendarLabels(
+        yesterday: 'previous day',
+        today: 'current day',
+        tomorrow: 'next day',
+        dateTime: '<{1}|{0}>',
+        relativeDateTime: '[{1}|{0}]',
+      );
+
+      expect(
+        labels.combineDateAndTime('20 Jul', '09:05'),
+        '<20 Jul|09:05>',
+      );
+      expect(
+        labels.combineDateAndTime('current day', '09:05', relative: true),
+        '[current day|09:05]',
+      );
+
+      final updated = labels.copyWith(
+        tomorrow: 'following day',
+        relativeDateTime: '{1} @ {0}',
+      );
+      expect(updated.yesterday, labels.yesterday);
+      expect(updated.today, labels.today);
+      expect(updated.tomorrow, 'following day');
+      expect(
+        updated.combineDateAndTime('following day', '10:00', relative: true),
+        'following day @ 10:00',
+      );
+    });
+
     test('relative and unit lookups reject the now pseudo-unit', () {
       final matcher = throwsA(
         isA<ArgumentError>()
@@ -180,10 +211,12 @@ void main() {
         current: 'currently',
         future: 'soon',
       );
+      final calendar = en.locale.calendar.copyWith(today: 'this day');
       final updated = en.locale.copyWith(
         locale: const Locale('x', 'TEST'),
         long: long,
         now: now,
+        calendar: calendar,
         functions: functions,
       );
 
@@ -193,6 +226,7 @@ void main() {
       expect(updated.narrow, same(en.locale.narrow));
       expect(updated.mini, same(en.locale.mini));
       expect(updated.now, same(now));
+      expect(updated.calendar, same(calendar));
       expect(updated.functions, same(functions));
       expect(updated.labelsFor(TimeAgoFormat.long), same(long));
 

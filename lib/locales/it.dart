@@ -4,6 +4,13 @@ import 'package:flutter/widgets.dart';
 const LocaleConfig locale = LocaleConfig(
   locale: Locale('it'),
   formats: TimeAgoFormatSet(long: _long, short: _short, narrow: _narrow),
+  calendar: TimeAgoCalendarLabels(
+    yesterday: 'ieri',
+    today: 'oggi',
+    tomorrow: 'domani',
+    dateTime: '{1} alle ore {0}',
+    relativeDateTime: '{1} alle ore {0}',
+  ),
   now: TimeAgoNowLabels(
     past: 'proprio ora',
     current: 'adesso',

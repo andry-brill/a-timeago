@@ -1,9 +1,16 @@
 import 'package:any_timeago/any_timeago.dart';
+import 'package:any_timeago/locales/de.dart' as de;
 import 'package:any_timeago/locales/en.dart' as en;
+import 'package:any_timeago/locales/en_us.dart' as en_us;
+import 'package:any_timeago/locales/ja.dart' as ja;
 import 'package:any_timeago/locales/ru.dart' as ru;
+import 'package:any_timeago/steps/intl_calendar.dart' as calendar;
+import 'package:any_timeago/steps/intl_twitter.dart' as twitter;
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  setUpAll(initializeTimeAgoDateFormatting);
+
   group('explicit public entry points', () {
     test('all DateTime APIs can resolve the current clock implicitly', () {
       final time = DateTime.now().subtract(const Duration(days: 400));
@@ -546,7 +553,7 @@ void main() {
           const Duration(seconds: 59),
           locale: en.locale,
           format: TimeAgoFormat.mini,
-          steps: TimeAgoSteps.twitterFirstMinute,
+          steps: twitter.stepsFirstMinute,
         ),
         '',
       );
@@ -555,7 +562,7 @@ void main() {
           const Duration(minutes: 1),
           locale: en.locale,
           format: TimeAgoFormat.mini,
-          steps: TimeAgoSteps.twitterFirstMinute,
+          steps: twitter.stepsFirstMinute,
         ),
         '1m',
       );
@@ -694,14 +701,14 @@ void main() {
     test('covers each remaining built-in step preset', () {
       final cases = <(List<TimeAgoStep>, Duration, String)>[
         (TimeAgoSteps.fromMinute, Duration.zero, '0 minutes ago'),
-        (TimeAgoSteps.twitterNow, Duration.zero, 'now'),
+        (twitter.stepsNow, Duration.zero, 'now'),
         (
-          TimeAgoSteps.twitterFromMinute,
+          twitter.stepsFromMinute,
           const Duration(seconds: 20),
           '0 minutes ago',
         ),
         (
-          TimeAgoSteps.twitterFromMinuteNow,
+          twitter.stepsFromMinuteNow,
           const Duration(seconds: 20),
           'just now',
         ),
@@ -740,7 +747,7 @@ void main() {
           to: to,
           locale: en.locale,
           format: TimeAgoFormat.mini,
-          steps: TimeAgoSteps.twitter,
+          steps: twitter.steps,
         ),
         '20 Jul',
       );
@@ -750,7 +757,7 @@ void main() {
           to: to,
           locale: en.locale,
           format: TimeAgoFormat.mini,
-          steps: TimeAgoSteps.twitter,
+          steps: twitter.steps,
         ),
         '20 Dec 2025',
       );
@@ -763,7 +770,7 @@ void main() {
           DateTime(2026, 7, 28),
           to: to,
           locale: en.locale,
-          steps: TimeAgoSteps.twitter,
+          steps: twitter.steps,
         ),
         '28 Jul',
       );
@@ -772,9 +779,209 @@ void main() {
           DateTime(2027, 1, 20),
           to: to,
           locale: en.locale,
-          steps: TimeAgoSteps.twitter,
+          steps: twitter.steps,
         ),
         '20 Jan 2027',
+      );
+    });
+
+    test('calendar steps use relative, named-day, and dated thresholds', () {
+      final to = DateTime(2026, 7, 24, 12);
+
+      expect(
+        timeAgo(
+          to.subtract(const Duration(minutes: 1)),
+          to: to,
+          locale: en.locale,
+          steps: calendar.steps,
+        ),
+        'now',
+      );
+      expect(
+        timeAgo(
+          to.subtract(
+            const Duration(minutes: 1, microseconds: 1),
+          ),
+          to: to,
+          locale: en.locale,
+          steps: calendar.steps,
+        ),
+        '1 minute ago',
+      );
+      expect(
+        timeAgo(
+          to.subtract(const Duration(minutes: 10)),
+          to: to,
+          locale: en.locale,
+          format: TimeAgoFormat.short,
+          steps: calendar.steps,
+        ),
+        '10 min ago',
+      );
+      expect(
+        timeAgo(
+          to.subtract(const Duration(minutes: 30)),
+          to: to,
+          locale: en.locale,
+          steps: calendar.steps,
+        ),
+        '30 minutes ago',
+      );
+      expect(
+        timeAgo(
+          DateTime(2026, 7, 24, 9, 5, 7),
+          to: to,
+          locale: en.locale,
+          steps: calendar.steps,
+        ),
+        'today at 09:05',
+      );
+      expect(
+        timeAgo(
+          DateTime(2026, 7, 23, 9, 5, 7),
+          to: to,
+          locale: en.locale,
+          steps: calendar.steps,
+        ),
+        'yesterday at 09:05',
+      );
+      expect(
+        timeAgo(
+          DateTime(2026, 7, 20, 9, 5, 7),
+          to: to,
+          locale: en.locale,
+          steps: calendar.steps,
+        ),
+        '20 Jul at 09:05',
+      );
+      expect(
+        timeAgo(
+          DateTime(2025, 12, 20, 9, 5, 7),
+          to: to,
+          locale: en.locale,
+          steps: calendar.steps,
+        ),
+        '20 Dec 2025 at 09:05',
+      );
+    });
+
+    test('calendar-with-seconds steps retain timestamp seconds', () {
+      final to = DateTime(2026, 7, 24, 12);
+
+      expect(
+        timeAgo(
+          DateTime(2026, 7, 24, 9, 5, 7),
+          to: to,
+          locale: en.locale,
+          steps: calendar.stepsWithSeconds,
+        ),
+        'today at 09:05:07',
+      );
+      expect(
+        timeAgo(
+          DateTime(2025, 12, 20, 9, 5, 7),
+          to: to,
+          locale: en.locale,
+          steps: calendar.stepsWithSeconds,
+        ),
+        '20 Dec 2025 at 09:05:07',
+      );
+    });
+
+    test('calendar steps localize named days, clocks, and combinations', () {
+      final to = DateTime(2026, 7, 24, 12);
+      final today = DateTime(2026, 7, 24, 9, 5, 7);
+      final tomorrow = DateTime(2026, 7, 25, 9, 5, 7);
+
+      expect(
+        timeAgo(
+          today,
+          to: to,
+          locale: en_us.locale,
+          steps: calendar.steps,
+        ),
+        'today at 9:05\u202fAM',
+      );
+      expect(
+        timeAgo(
+          today,
+          to: to,
+          locale: de.locale,
+          steps: calendar.steps,
+        ),
+        'heute um 09:05',
+      );
+      expect(
+        timeAgo(
+          tomorrow,
+          to: to,
+          locale: de.locale,
+          steps: calendar.steps,
+        ),
+        'morgen um 09:05',
+      );
+      expect(
+        timeAgo(
+          today,
+          to: to,
+          locale: ja.locale,
+          steps: calendar.steps,
+        ),
+        '今日の 9:05',
+      );
+      expect(
+        timeAgo(
+          DateTime(2026, 7, 20, 9, 5, 7),
+          to: to,
+          locale: ja.locale,
+          steps: calendar.steps,
+        ),
+        '7月20日 9:05',
+      );
+    });
+
+    test('calendar steps schedule named-day and year changes', () {
+      final to = DateTime.utc(2026, 7, 24, 12);
+      final today = timeAgoResult(
+        DateTime.utc(2026, 7, 24, 9),
+        to: to,
+        locale: en.locale,
+        steps: calendar.steps,
+      );
+      final thisYear = timeAgoResult(
+        DateTime.utc(2026, 5, 20, 9),
+        to: to,
+        locale: en.locale,
+        steps: calendar.steps,
+      );
+      final nextDay = timeAgoResult(
+        DateTime.utc(2026, 7, 25, 12),
+        to: to,
+        locale: en.locale,
+        steps: calendar.steps,
+      );
+      final dayAfterTomorrow = timeAgoResult(
+        DateTime.utc(2026, 7, 26, 12),
+        to: to,
+        locale: en.locale,
+        steps: calendar.steps,
+      );
+
+      expect(
+        (today.nextUpdate as TimeAgoUpdateAfter).duration,
+        const Duration(hours: 12),
+      );
+      expect(
+        (thisYear.nextUpdate as TimeAgoUpdateAfter).duration,
+        const Duration(days: 160, hours: 12),
+      );
+      expect(
+        (nextDay.nextUpdate as TimeAgoUpdateAfter).duration,
+        const Duration(hours: 12),
+      );
+      expect(
+        (dayAfterTomorrow.nextUpdate as TimeAgoUpdateAfter).duration,
+        const Duration(hours: 12),
       );
     });
 

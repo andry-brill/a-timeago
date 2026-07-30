@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
+import '../steps/basic.dart';
 import 'enums.dart';
 import 'formatter.dart' as formatter;
 import 'formatter.dart' show TimeAgoResult;
 import 'locale_config.dart';
 import 'locale_functions.dart';
 import 'scheduler.dart';
-import 'steps.dart';
 import 'time_ago_step.dart';
 
 /// Resolved inherited configuration.
