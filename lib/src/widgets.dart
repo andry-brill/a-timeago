@@ -241,6 +241,7 @@ TimeAgoResult _withoutUpdates(TimeAgoResult result) {
     result.text,
     const TimeAgoUpdate.never(),
     result.values,
+    nextCutoff: result.nextCutoff,
   );
 }
 

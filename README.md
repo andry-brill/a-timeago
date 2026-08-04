@@ -116,7 +116,8 @@ using the `intl_twitter` or `intl_calendar` presets must call
 - `timeAgo()` and `durationAgo()` format one localized relative-time unit.
 - `timeAgoMulti()` and `durationAgoMulti()` format a localized list of units.
 - Matching `*Result()` variants return `TimeAgoResult` with localized `text`,
-  the pre-format `values`, and `nextUpdate` for scheduling.
+  the pre-format `values`, the pending replacement step in `nextCutoff`, and
+  `nextUpdate` for scheduling.
 
 For example, `durationAgoMultiResult(const Duration(days: 400), ...)` exposes
 year, month, and day `TimeAgoStep.unit` records with values `1`, `1`, and `10`
@@ -272,6 +273,13 @@ The boundary is strict, so exactly three years remains `3 years`. Cutoffs use
 the absolute interval and therefore apply equally to past and future values.
 In multi-unit mode, an exceeded cutoff replaces the complete list with its
 single capped unit.
+
+Before a cutoff is exceeded, result APIs expose the nearest pending cutoff as
+`nextCutoff`, even when its unit or multiplier differs from the current values.
+At the strict boundary it remains pending. Once cutoff formatting is active,
+`nextCutoff` is null and the cutoff step is the current value's `step` instead.
+Consumers using its amount as a bound for a current value must first verify
+that their units and multipliers match.
 
 `timeAgo()` and `timeAgoMulti()` use calendar-aware year, quarter, and month
 boundaries for a standalone cutoff. Duration functions and cutoffs embedded in

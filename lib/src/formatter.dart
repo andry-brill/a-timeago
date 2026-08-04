@@ -133,7 +133,12 @@ typedef TimeAgoValue = ({TimeAgoStep step, int value});
 /// such as live widgets. Duration-based results are stable and return
 /// [TimeAgoUpdate.never].
 class TimeAgoResult {
-  const TimeAgoResult(this.text, this.nextUpdate, this.values);
+  const TimeAgoResult(
+    this.text,
+    this.nextUpdate,
+    this.values, {
+    this.nextCutoff,
+  });
 
   final String text;
   final TimeAgoUpdate nextUpdate;
@@ -145,6 +150,14 @@ class TimeAgoResult {
   /// result with no selected component, such as exact zero in multi-unit mode,
   /// has an empty list.
   final List<TimeAgoValue> values;
+
+  /// The nearest pending cutoff that will replace the normal result.
+  ///
+  /// This remains available at the strict cutoff boundary. It becomes null
+  /// once cutoff formatting is active, because the cutoff step is then the
+  /// current value's `step`. Its unit and multiplier may differ from those of
+  /// the current values.
+  final TimeAgoStep? nextCutoff;
 }
 
 /// Formats one selected step and returns its text and next update deadline.
@@ -451,7 +464,7 @@ TimeAgoResult _formatMultiMode(
   return _formatMulti(
     request,
     units,
-    nextCutoffUpdate: standaloneCutoff?.nextTransition,
+    standaloneCutoff: standaloneCutoff,
   );
 }
 
@@ -476,6 +489,7 @@ TimeAgoResult _formatSingle(
   if (exceededCutoff != null) {
     return _formatCutoff(exceededCutoff, request);
   }
+  final nextCutoff = _nextPendingCutoff(cutoffs);
   final nextCutoffUpdate = basis.canUpdate
       ? earliestDuration(
           cutoffs.map((cutoff) => cutoff.nextTransition).whereType<Duration>(),
@@ -498,6 +512,7 @@ TimeAgoResult _formatSingle(
           ? withRequiredUpdate(TimeAgoUpdate.after(wait), nextCutoffUpdate)
           : const TimeAgoUpdate.never(),
       const [],
+      nextCutoff: nextCutoff,
     );
   }
 
@@ -517,6 +532,7 @@ TimeAgoResult _formatSingle(
       text,
       const TimeAgoUpdate.never(),
       values,
+      nextCutoff: nextCutoff,
     );
   }
   final stepUpdate = timeUntilStepBoundary(
@@ -537,6 +553,7 @@ TimeAgoResult _formatSingle(
       text,
       withRequiredUpdate(requestedUpdate, structuralUpdate),
       values,
+      nextCutoff: nextCutoff,
     );
   }
   if (step is! TimeAgoUnitStep) {
@@ -547,6 +564,7 @@ TimeAgoResult _formatSingle(
         structuralUpdate,
       ),
       values,
+      nextCutoff: nextCutoff,
     );
   }
 
@@ -560,12 +578,14 @@ TimeAgoResult _formatSingle(
       text,
       const TimeAgoUpdate.never(),
       values,
+      nextCutoff: nextCutoff,
     );
   }
   return TimeAgoResult(
     text,
     TimeAgoUpdate.after(nextUpdate),
     values,
+    nextCutoff: nextCutoff,
   );
 }
 
@@ -719,7 +739,7 @@ TimeAgoStepContext _createStepContext(
 TimeAgoResult _formatMulti(
   _FormatRequest request,
   List<TimeAgoUnit> units, {
-  required Duration? nextCutoffUpdate,
+  required ResolvedCutoff? standaloneCutoff,
 }) {
   final basis = request.basis;
   final decomposition = switch (basis) {
@@ -744,16 +764,23 @@ TimeAgoResult _formatMulti(
         ),
       )
       .toList(growable: false);
+  final nextCutoff = _nextPendingCutoff(
+    <ResolvedCutoff>[
+      if (standaloneCutoff != null) standaloneCutoff,
+    ],
+  );
   if (!basis.canUpdate) {
     return TimeAgoResult(
       text,
       const TimeAgoUpdate.never(),
       values,
+      nextCutoff: nextCutoff,
     );
   }
   final nextUpdate = earliestDuration(<Duration>[
     if (decomposition.nextUpdate != null) decomposition.nextUpdate!,
-    if (nextCutoffUpdate != null) nextCutoffUpdate,
+    if (standaloneCutoff?.nextTransition != null)
+      standaloneCutoff!.nextTransition!,
   ]);
   return TimeAgoResult(
     text,
@@ -761,7 +788,26 @@ TimeAgoResult _formatMulti(
         ? const TimeAgoUpdate.never()
         : TimeAgoUpdate.after(nextUpdate),
     values,
+    nextCutoff: nextCutoff,
   );
+}
+
+TimeAgoStep? _nextPendingCutoff(Iterable<ResolvedCutoff> cutoffs) {
+  ResolvedCutoff? earliest;
+  for (final cutoff in cutoffs) {
+    if (cutoff.exceeded) {
+      continue;
+    }
+    final comparison = earliest == null
+        ? -1
+        : cutoff.triggerBoundary.compareTo(earliest.triggerBoundary);
+    if (earliest == null ||
+        comparison < 0 ||
+        (comparison == 0 && cutoff.standalone && !earliest.standalone)) {
+      earliest = cutoff;
+    }
+  }
+  return earliest?.step;
 }
 
 sealed class _FormatMode {

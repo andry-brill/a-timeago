@@ -133,16 +133,23 @@ void main() {
       expect(cutoff.values.single.step, same(cutoffStep));
       expect(cutoff.values.single.step.unit, TimeAgoUnit.hour);
       expect(cutoff.values.single.value, 2);
+      expect(cutoff.nextCutoff, isNull);
     });
 
     test('constructs a result with explicit values', () {
+      const nextCutoff = TimeAgoStep.unit(
+        TimeAgoUnit.year,
+        cutoffAmount: 3,
+      );
       const result = TimeAgoResult(
         'static',
         TimeAgoUpdate.never(),
         [],
+        nextCutoff: nextCutoff,
       );
 
       expect(result.values, isEmpty);
+      expect(result.nextCutoff, same(nextCutoff));
     });
 
     test('only result APIs resolve update callbacks', () {
